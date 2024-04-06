@@ -1,0 +1,27 @@
+.Tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.Tile__poster {
+  position: relative;
+  padding-bottom: 150%;
+  margin-bottom: 10px;
+  background-size: cover;
+}
+.Tile:after {
+  position: absolute;
+  content: "";
+  background: var(--darkest-color);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+  transition: opacity 0.4s ease;
+}
+.Tile--active:after {
+  opacity: 0;
+}
+.Tile__title {
+}

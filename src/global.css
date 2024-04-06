@@ -2,9 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --main-color: #333c53;
+  --darker-color: #1b2031;
+  --darkest-color: #08090e;
+  --secondary-color: #cab8ff;
+  --lighter-color: lavender;
+}
+* {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
-  background: #333c53;
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--darkest-color);
+  font-family: "Archivo", Arial, Helvetica, sans-serif;
   color: white;
+  overflow-x: hidden;
 }

@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import { instance } from "@/utils/api.js";
 
+import "./styles.css";
+import Slider from "@/components/Slider";
+
 export default function Home() {
-  const [popularMovies, setPopularMovies] = useState(["test"]);
+  const [playingMovies, setPlayingMovies] = useState([]);
+  const [popularMovies, setPopularMovies] = useState([]);
 
   const fetchData = async () => {
+    instance.get("/movies/playing").then((resp: any) => {
+      setPlayingMovies(resp.data.results);
+    });
     instance.get("/movies/popular").then((resp: any) => {
-      console.log(resp);
       setPopularMovies(resp.data.results);
     });
   };
@@ -14,13 +20,9 @@ export default function Home() {
     fetchData();
   }, []);
   return (
-    <>
-      <div className="Home__PopularMovies">
-        {popularMovies.map((movie: any, i) => {
-          console.log(movie);
-          return <li key={i}>{movie.title}</li>;
-        })}
-      </div>
-    </>
+    <div className="Home">
+      <Slider label="In Theaters Now" movies={playingMovies} />
+      <Slider label="Popular Movies" movies={popularMovies} />
+    </div>
   );
 }

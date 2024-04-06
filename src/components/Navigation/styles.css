@@ -1,12 +1,111 @@
 .Navigation {
+  position: sticky;
   width: 100%;
-  background: red;
+  background: #1b2031;
+  z-index: 10;
+  top: 0;
 }
 
-.Navigation__Wrapper {
+.Navigation__wrapper {
+  padding: 10px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: auto;
-  background: blue;
+}
+
+.Navigation__logo {
+  font-weight: 900;
+  color: white;
+  cursor: pointer;
+}
+.Navigation__logo > span {
+  color: var(--secondary-color);
+}
+
+.Navigation__section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+}
+.Navigation__icon {
+  color: white;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.Navigation__icon:hover {
+  color: #cab8ff;
+}
+.Navigation__icon--active {
+  color: #cab8ff;
+}
+.Navigation__account {
+  background: var(--main-color);
+  border-radius: 100%;
+  padding: 10px;
+  position: relative;
+}
+.Navigation__account__dropdown {
+  color: white;
+  background: var(--darkest-color);
+  position: absolute;
+  top: 100%;
+  right: -30px;
+  margin-top: 10px;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+.Navigation__account__dropdown:after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--secondary-color);
+}
+.Navigation__account__item {
+  padding: 20px 40px;
+  background: var(--darkest-color);
+  transition: background 0.2s ease, color 0.2s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.Navigation__account__item:hover {
+  background: #10131d;
+  color: var(--secondary-color);
+}
+.Navigation__account--user {
+  position: relative;
+  padding-bottom: 22px;
+  flex-direction: column;
+  gap: 0;
+  align-items: start;
+}
+.Navigation__account--user:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--darker-color);
+}
+.Navigation__account--user > span {
+  font-weight: 700;
+  color: white !important;
+}
+.Navigation__blur {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background: var(--darker-color);
+  opacity: 0.7;
+  z-index: 9;
 }

@@ -1,0 +1,7 @@
+.Layout {
+  display: flex;
+  flex-direction: column;
+}
+.Layout__content {
+  flex: 1;
+}
