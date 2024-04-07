@@ -41,9 +41,14 @@ export default function Slider({
 
   const setActiveSlides = () => {
     if (!slider.current) return;
+    const tempSlide = Math.min(
+      slide,
+      slider.current.childElementCount - slidesPerScroll
+    );
+    setSlide(tempSlide);
     for (let i = 0; i < slider.current.childElementCount; i++) {
       slider.current.children[i].classList.remove("Tile--active");
-      if (i >= slide && i < slide + slidesPerScroll)
+      if (i >= tempSlide && i < tempSlide + slidesPerScroll)
         slider.current.children[i].classList.add("Tile--active");
     }
   };
