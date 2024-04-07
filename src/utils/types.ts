@@ -14,3 +14,16 @@ export type Movie = {
   vote_average: number;
   vote_count: number;
 };
+
+export type User = {
+  id: string;
+  username: string;
+  role: string;
+};
+
+// undefined as default before checking if logged in
+// once checked, null if not logged in
+export type UserContext = {
+  user: User | null | undefined;
+  getUser: () => void;
+};

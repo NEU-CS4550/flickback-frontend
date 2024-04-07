@@ -5,7 +5,7 @@ export default function Register() {
   useEffect(() => {
     api
       .post("/users/register", {
-        username: "test",
+        username: "test2",
         password: "test123!",
       })
       .then((resp) => {
@@ -14,7 +14,7 @@ export default function Register() {
       .catch((err) => {
         console.log(err.response.data.message);
       });
-  });
+  }, []);
 
   return <></>;
 }

@@ -1,26 +1,42 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import * as Pages from "@/pages";
+import { AuthProvider, useAuth } from "./utils/auth";
+import { ReactNode } from "react";
 
 import "./global.css";
 
+function Protected({ element }: { element: ReactNode }) {
+  const { user } = useAuth();
+  if (user === null) {
+    return <Navigate to="/login" />;
+  } else if (user === undefined) {
+    return <></>;
+  } else {
+    return element;
+  }
+}
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Pages.Home />}></Route>
-        <Route path="/profile" element={<Pages.Profile />}></Route>
-        <Route path="/settings" element={<Pages.Settings />}></Route>
-        <Route path="/login" element={<Pages.Login />}></Route>
-        <Route path="/logout" element={<Pages.Logout />}></Route>
-        <Route path="/register" element={<Pages.Register />}></Route>
-        <Route path="/search" element={<Pages.Search />}></Route>
-        <Route path="/details" element={<Pages.Details />}></Route>
-        <Route path="/watchlist" element={<Pages.Watchlist />}></Route>
-      </Route>
-    </Routes>
-  </BrowserRouter>
+  <AuthProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Pages.Home />} />
+          <Route
+            path="/profile"
+            element={<Protected element={<Pages.Profile />} />}
+          />
+          <Route path="/settings" element={<Pages.Settings />} />
+          <Route path="/login" element={<Pages.Login />} />
+          <Route path="/logout" element={<Pages.Logout />} />
+          <Route path="/register" element={<Pages.Register />} />
+          <Route path="/search" element={<Pages.Search />} />
+          <Route path="/details" element={<Pages.Details />} />
+          <Route path="/watchlist" element={<Pages.Watchlist />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </AuthProvider>
 );

@@ -1,18 +1,25 @@
-import {
-  LuSearch,
-  LuUser,
-  LuLogOut,
-  LuSettings,
-  LuGrip,
-  LuBookmark,
-} from "react-icons/lu";
+import { LuSearch, LuUser, LuGrip, LuFilm } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { AccountDropdown } from "./Dropdown";
 
 import "./styles.css";
 
 export default function Navigation() {
+  const location = useLocation();
+
   const [accountDropdown, showAccountDropdown] = useState(false);
+  const [browseDropdown, showBrowseDropdown] = useState(false);
+
+  const hideDropdowns = () => {
+    showAccountDropdown(false);
+    showBrowseDropdown(false);
+  };
+
+  useEffect(() => {
+    hideDropdowns();
+  }, [location.pathname]);
 
   return (
     <>
@@ -20,18 +27,35 @@ export default function Navigation() {
         <div className="Navigation__wrapper container">
           {/****** Left side of navigation ******/}
           <div className="Navigation__section">
-            <Link className="Navigation__logo text-3xl" to="/">
-              flick<span>back</span>
+            <Link
+              className="Navigation__logo text-3xl"
+              to="/"
+              onClick={hideDropdowns}
+            >
+              <LuFilm className="text-2xl" />
+              <div>
+                flick<span>back</span>
+              </div>
             </Link>
           </div>
           {/****** Right side of navigation ******/}
           <div className="Navigation__section">
-            <Link className="Navigation__icon text-2xl" to="/search">
+            <Link
+              className="Navigation__icon text-2xl"
+              to="/search"
+              onClick={hideDropdowns}
+            >
               <LuSearch />
             </Link>
-            <Link className="Navigation__icon text-2xl" to="/search">
+            <div
+              className="Navigation__icon text-2xl"
+              onClick={() => {
+                showBrowseDropdown(!browseDropdown);
+                showAccountDropdown(false);
+              }}
+            >
               <LuGrip />
-            </Link>
+            </div>
             {/****** Account icon with dropdown ******/}
             <div
               className={
@@ -40,38 +64,14 @@ export default function Navigation() {
               }
               tabIndex={0}
               onClick={() => {
+                showBrowseDropdown(false);
                 showAccountDropdown(!accountDropdown);
-              }}
-              onBlur={() => {
-                //showAccountDropdown(false);
               }}
             >
               <LuUser />
-              {accountDropdown && (
-                <div className="Navigation__account__dropdown text-lg w-screen max-w-sm">
-                  <Link
-                    className="Navigation__account--user Navigation__account__item"
-                    to="/profile"
-                  >
-                    <span className="text-2xl">kennybc</span>
-                    <div className="text-sm">View Profile</div>
-                  </Link>
-                  <Link className="Navigation__account__item" to="/watchlist">
-                    <LuBookmark className="text-2xl" />
-                    <span>Watchlist</span>
-                  </Link>
-                  <Link className="Navigation__account__item" to="/settings">
-                    <LuSettings className="text-2xl" />
-                    <span>Settings</span>
-                  </Link>
-                  <Link className="Navigation__account__item" to="/logout">
-                    <LuLogOut className="text-2xl" />
-                    <span>Logout</span>
-                  </Link>
-                </div>
-              )}
             </div>
           </div>
+          {accountDropdown && <AccountDropdown />}
         </div>
       </div>
       {accountDropdown && (

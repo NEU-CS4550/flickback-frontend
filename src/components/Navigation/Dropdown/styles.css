@@ -1,0 +1,52 @@
+.Dropdown {
+  color: white;
+  background: var(--darkest-color);
+  position: absolute;
+  top: 100%;
+  right: 0;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+}
+.Dropdown:after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--secondary-color);
+}
+.AccountDropdown__item {
+  padding: 20px 40px;
+  background: var(--darkest-color);
+  transition: background 0.2s ease, color 0.2s ease;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+.AccountDropdown__item:hover {
+  background: #10131d;
+  color: var(--secondary-color);
+}
+.AccountDropdown__item--user {
+  position: relative;
+  padding-bottom: 22px;
+  flex-direction: column;
+  gap: 0;
+  align-items: start;
+}
+.AccountDropdown__item--user:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--darker-color);
+}
+.AccountDropdown__item--user > span {
+  font-weight: 700;
+  color: white !important;
+}
