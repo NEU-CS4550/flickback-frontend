@@ -8,7 +8,7 @@ export function AccountDropdown() {
   const { user } = useAuth();
 
   return (
-    <div className="Dropdown text-lg w-screen max-w-sm">
+    <div className="Dropdown text-lg w-screen sm:max-w-md">
       {user ? (
         <>
           <Link

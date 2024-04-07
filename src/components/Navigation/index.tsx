@@ -28,27 +28,27 @@ export default function Navigation() {
           {/****** Left side of navigation ******/}
           <div className="Navigation__section">
             <Link
-              className="Navigation__logo text-3xl"
+              className="Navigation__logo text-2xl sm:text-3xl"
               to="/"
               onClick={hideDropdowns}
             >
-              <LuFilm className="text-2xl" />
+              <LuFilm className="text-xl sm:text-2xl" />
               <div>
                 flick<span>back</span>
               </div>
             </Link>
           </div>
           {/****** Right side of navigation ******/}
-          <div className="Navigation__section">
+          <div className="Navigation__section gap-4 sm:gap-7">
             <Link
-              className="Navigation__icon text-2xl"
+              className="Navigation__icon text-xl sm:text-2xl"
               to="/search"
               onClick={hideDropdowns}
             >
               <LuSearch />
             </Link>
             <div
-              className="Navigation__icon text-2xl"
+              className="Navigation__icon text-xl sm:text-2xl"
               onClick={() => {
                 showBrowseDropdown(!browseDropdown);
                 showAccountDropdown(false);
@@ -59,7 +59,7 @@ export default function Navigation() {
             {/****** Account icon with dropdown ******/}
             <div
               className={
-                "Navigation__icon Navigation__account text-2xl" +
+                "Navigation__icon Navigation__account text-xl sm:text-2xl" +
                 (accountDropdown ? " Navigation__icon--active" : "")
               }
               tabIndex={0}
