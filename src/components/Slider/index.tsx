@@ -13,7 +13,7 @@ export default function Slider({
   label: string;
   movies: Movie[];
 }) {
-  const [windowWidth, windowHeight] = useWindowSize();
+  const [windowWidth, _] = useWindowSize();
   const [cooldown, setCooldown] = useState(0);
   const [slide, setSlide] = useState(0);
   const [slideWidth, setSlideWidth] = useState(0);

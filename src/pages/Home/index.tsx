@@ -6,7 +6,7 @@ import Slider from "@/components/Slider";
 
 export default function Home() {
   const [playingMovies, setPlayingMovies] = useState([]);
-  const [popularMovies, setPopularMovies] = useState([]);
+  const [_, setPopularMovies] = useState([]);
   const [trendingMovies, setTrendingMovies] = useState([]);
 
   const fetchData = async () => {
