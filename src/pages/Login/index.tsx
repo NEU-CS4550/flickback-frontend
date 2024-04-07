@@ -16,18 +16,14 @@ export default function Login() {
         username,
         password,
       })
-      .then((resp) => {
-        console.log(resp);
+      .then((response) => {
+        document.cookie = `token=${response.data}; Secure; SameSite=None; Path=/`;
         getUser();
       })
       .catch((err) => {
         console.log(err.response.data);
       });
   };
-
-  useEffect(() => {
-    if (user) navigate("/profile");
-  }, [user]);
 
   return (
     <>

@@ -15,7 +15,7 @@ export function AccountDropdown() {
             className="AccountDropdown__item--user AccountDropdown__item"
             to="/profile"
           >
-            <span className="text-2xl">kennybc</span>
+            <span className="text-2xl">{user.username}</span>
             <div className="text-sm">View Profile</div>
           </Link>
           <Link className="AccountDropdown__item" to="/watchlist">

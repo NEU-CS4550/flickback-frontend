@@ -1,17 +1,12 @@
-import { useEffect } from "react";
-import { api } from "@/utils/api";
+import { useAuth } from "@/utils/auth";
 
 export default function Profile() {
-  useEffect(() => {
-    api
-      .get("/users/profile")
-      .then((resp) => {
-        console.log(resp);
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
-  }, []);
+  const { user } = useAuth();
 
-  return <></>;
+  return (
+    <>
+      <h1>{user?.username}</h1>
+      {user?.role}
+    </>
+  );
 }

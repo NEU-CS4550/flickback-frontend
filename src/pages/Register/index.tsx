@@ -1,20 +1,49 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { api } from "@/utils/api";
+import { useAuth } from "@/utils/auth";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
-  useEffect(() => {
+  const { user, getUser } = useAuth();
+  const navigate = useNavigate();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const login = () => {
     api
       .post("/users/register", {
-        username: "test2",
-        password: "test123!",
+        username,
+        password,
       })
-      .then((resp) => {
-        console.log(resp);
+      .then((response) => {
+        document.cookie = `token=${response.data}; Secure; SameSite=None; Path=/`;
+        getUser();
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.log(err.response.data);
       });
-  }, []);
+  };
 
-  return <></>;
+  return (
+    <>
+      <input
+        className="text-black"
+        placeholder="Username"
+        value={username}
+        onChange={(e) => {
+          setUsername(e.target.value);
+        }}
+      />
+      <input
+        className="text-black"
+        placeholder="******"
+        value={password}
+        onChange={(e) => {
+          setPassword(e.target.value);
+        }}
+      />
+      <button onClick={login}>Register</button>
+    </>
+  );
 }

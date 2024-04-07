@@ -1,4 +1,3 @@
-import { api } from "@/utils/api";
 import { useEffect } from "react";
 import { useAuth } from "@/utils/auth";
 
@@ -6,14 +5,8 @@ export default function Logout() {
   const { getUser } = useAuth();
 
   useEffect(() => {
-    api
-      .post("/users/logout")
-      .then(() => {
-        getUser();
-      })
-      .catch((err) => {
-        console.log(err.response.data);
-      });
+    document.cookie += "; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    getUser();
   }, []);
   return <></>;
 }
