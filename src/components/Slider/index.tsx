@@ -1,4 +1,4 @@
-import Tile from "@/components/Slider/Tile";
+import Tile from "@/components/Tile";
 import { Movie } from "@/utils/types";
 import { useState, useRef, useEffect } from "react";
 import useWindowSize from "@/utils/resize";

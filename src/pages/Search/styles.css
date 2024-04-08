@@ -52,3 +52,31 @@
 .Search__clear:hover {
   color: var(--secondary-color);
 }
+
+.Search__results {
+  padding: 30px 10vw;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.Search__results > .Tile {
+  flex: 0 1 calc(20% - 24px);
+}
+.Search__results > span {
+  width: 100%;
+}
+.Search__results > span b {
+  font-weight: 800;
+  color: var(--secondary-color);
+}
+
+@media (max-width: 1535px) {
+  .Search__results > .Tile {
+    flex-basis: calc(25% - 22.5px);
+  }
+}
+@media (max-width: 1023px) {
+  .Search__results > .Tile {
+    flex-basis: calc(50% - 20px);
+  }
+}

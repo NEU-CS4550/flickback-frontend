@@ -49,7 +49,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             element={<Protected reverse element={<Pages.Register />} />}
           />
           <Route path="/search" element={<Pages.Search />} />
-          <Route path="/details" element={<Pages.Details />} />
+          <Route path="/movies/:movieId" element={<Pages.Details />} />
           <Route path="/watchlist" element={<Pages.Watchlist />} />
         </Route>
       </Routes>

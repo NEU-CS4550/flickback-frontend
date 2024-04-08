@@ -1,4 +1,10 @@
-import { LuLogOut, LuSettings, LuBookmark } from "react-icons/lu";
+import {
+  LuLogOut,
+  LuSettings,
+  LuBookmark,
+  LuLogIn,
+  LuPenSquare,
+} from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/utils/auth";
 
@@ -37,11 +43,11 @@ export function AccountDropdown({ ...props }) {
       ) : (
         <>
           <Link className="AccountDropdown__item" to="/register">
-            <LuBookmark className="text-2xl" />
+            <LuPenSquare className="text-2xl" />
             <span>Register</span>
           </Link>
           <Link className="AccountDropdown__item" to="/login">
-            <LuSettings className="text-2xl" />
+            <LuLogIn className="text-2xl" />
             <span>Login</span>
           </Link>
         </>
