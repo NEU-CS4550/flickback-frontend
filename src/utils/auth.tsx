@@ -7,7 +7,6 @@ import {
 } from "react";
 import { api } from "./api";
 import { User, UserContext } from "./types";
-import { getToken } from "./token";
 
 const AuthContext = createContext<UserContext>({
   user: undefined,
