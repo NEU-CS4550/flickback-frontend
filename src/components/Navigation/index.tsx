@@ -71,7 +71,13 @@ export default function Navigation() {
               <LuUser />
             </div>
           </div>
-          {accountDropdown && <AccountDropdown />}
+          {accountDropdown && (
+            <AccountDropdown
+              onClick={() => {
+                showAccountDropdown(false);
+              }}
+            />
+          )}
         </div>
       </div>
       {accountDropdown && (

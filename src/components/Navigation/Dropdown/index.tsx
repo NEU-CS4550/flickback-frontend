@@ -4,11 +4,11 @@ import { useAuth } from "@/utils/auth";
 
 import "./styles.css";
 
-export function AccountDropdown() {
+export function AccountDropdown({ ...props }) {
   const { user } = useAuth();
 
   return (
-    <div className="Dropdown text-lg w-screen sm:max-w-md">
+    <div className="Dropdown text-lg w-screen sm:max-w-md" {...props}>
       {user ? (
         <>
           <Link

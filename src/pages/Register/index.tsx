@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "@/utils/api";
 import { useAuth } from "@/utils/auth";
+import { setToken } from "@/utils/token";
 
 export default function Register() {
   const { getUser } = useAuth();
@@ -15,7 +16,7 @@ export default function Register() {
         password,
       })
       .then((response) => {
-        document.cookie = `token=${response.data}; Secure; SameSite=None; Path=/`;
+        setToken(response.data);
         getUser();
       })
       .catch((err) => {

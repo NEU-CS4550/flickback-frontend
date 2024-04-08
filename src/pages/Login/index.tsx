@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "@/utils/api";
 import { useAuth } from "@/utils/auth";
+import { getToken, setToken } from "@/utils/token";
 
 export default function Login() {
   const { getUser } = useAuth();
@@ -15,7 +16,7 @@ export default function Login() {
         password,
       })
       .then((response) => {
-        document.cookie = `token=${response.data}; Secure; SameSite=None; Path=/`;
+        setToken(response.data);
         getUser();
       })
       .catch((err) => {
@@ -25,6 +26,7 @@ export default function Login() {
 
   return (
     <>
+      {getToken()}
       <input
         className="text-black"
         placeholder="Username"
