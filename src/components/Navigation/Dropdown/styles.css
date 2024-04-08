@@ -32,10 +32,10 @@
 }
 .AccountDropdown__item--user {
   position: relative;
-  padding-bottom: 22px;
-  flex-direction: column;
-  gap: 0;
-  align-items: start;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  padding-left: 25px;
 }
 .AccountDropdown__item--user:after {
   content: "";
@@ -46,7 +46,10 @@
   height: 2px;
   background: var(--darker-color);
 }
-.AccountDropdown__item--user > span {
+.AccountDropdown__item--user > div > span {
   font-weight: 700;
   color: white !important;
+}
+.AccountDropdown__item--user > img {
+  width: 60px;
 }

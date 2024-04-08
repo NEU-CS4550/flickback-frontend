@@ -11,7 +11,7 @@ export default function Register() {
 
   const login = () => {
     api
-      .post("/users/register", {
+      .post("/auth/register", {
         username,
         password,
       })

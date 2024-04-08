@@ -34,6 +34,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
             path="/profile"
             element={<Protected element={<Pages.Profile />} />}
           />
+          <Route path="/users/:profileId" element={<Pages.Profile />} />
           <Route path="/settings" element={<Pages.Settings />} />
           <Route
             path="/login"

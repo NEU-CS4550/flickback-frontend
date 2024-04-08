@@ -19,6 +19,7 @@ export type User = {
   id: string;
   username: string;
   role: string;
+  pfp: string;
 };
 
 // undefined as default before checking if logged in
@@ -26,4 +27,10 @@ export type User = {
 export type UserContext = {
   user: User | null | undefined;
   getUser: () => void;
+};
+
+export type Profile = {
+  user: User;
+  followers: string[];
+  following: string[];
 };

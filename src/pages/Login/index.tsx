@@ -11,7 +11,7 @@ export default function Login() {
 
   const login = () => {
     api
-      .post("/users/login", {
+      .post("/auth/login", {
         username,
         password,
       })

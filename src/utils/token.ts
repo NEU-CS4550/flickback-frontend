@@ -14,6 +14,6 @@ export function getToken() {
 
 export function clearToken() {
   if (getToken() !== "") {
-    document.cookie += "; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+    document.cookie = "token=;Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";
   }
 }

@@ -10,7 +10,7 @@
   margin-bottom: 10px;
   background-size: cover;
 }
-.Tile:after {
+.Slider .Tile:after {
   position: absolute;
   content: "";
   background: var(--darkest-color);
@@ -21,7 +21,7 @@
   opacity: 0.7;
   transition: opacity 0.4s ease;
 }
-.Tile--active:after {
+.Slider .Tile--active:after {
   opacity: 0;
 }
 .Tile__title {

@@ -1,0 +1,16 @@
+.Button {
+  display: inline-flex;
+  padding: 10px 20px;
+  background: var(--secondary-color);
+  color: var(--darker-color);
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s ease;
+  font-weight: 600;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.Button:hover {
+  background: var(--lighter-color);
+}
