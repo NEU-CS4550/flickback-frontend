@@ -3,15 +3,42 @@ import { useEffect, useState } from "react";
 import { api, api_image_url } from "@/utils/api";
 import { MovieFull } from "@/utils/types";
 import { FaRegStar, FaStar } from "react-icons/fa";
-import { formatGenres, formatRuntime } from "@/utils/misc";
+import { formatGenres, formatRuntime } from "@/utils/format";
 import Button from "@/components/Button";
-import { LuBookmark, LuStar } from "react-icons/lu";
+import {
+  LuStar,
+  LuCircleSlash2,
+  LuBookmarkMinus,
+  LuBookmarkPlus,
+} from "react-icons/lu";
+import { useAuth } from "@/utils/auth";
 
 import "./styles.css";
 
 export default function Details() {
+  const { user, setUser } = useAuth();
   const { movieId } = useParams();
   const [movie, setMovie] = useState<MovieFull | null>(null);
+
+  const addWatchlist = () => {
+    if (!user || !movie) return;
+    api.post(`/movies/${movieId}/add`).then(() => {
+      setUser({
+        ...user,
+        watchlist: [...user.watchlist, movie.id],
+      });
+    });
+  };
+
+  const removeWatchlist = () => {
+    if (!user || !movie) return;
+    api.post(`/movies/${movieId}/remove`).then(() => {
+      setUser({
+        ...user,
+        watchlist: user.watchlist.filter((id) => id != movie.id),
+      });
+    });
+  };
 
   useEffect(() => {
     api.get(`/movies/${movieId}`).then((response) => {
@@ -41,7 +68,11 @@ export default function Details() {
                   backgroundImage:
                     "url(" + api_image_url + "/w300" + movie.poster_path + ")",
                 }}
-              ></div>
+              >
+                {!movie.poster_path && (
+                  <LuCircleSlash2 className="Details__poster--empty text-5xl xs:text-6xl sm:text-8xl lg:text-6xl xl:text-8xl" />
+                )}
+              </div>
             </div>
             <div className="flex flex-col">
               <span className="Details__title text-2xl md:text-4xl">
@@ -66,16 +97,25 @@ export default function Details() {
               </div>
               <span className="italic text-lg mb-2">{movie.tagline}</span>
               <div className="mb-5">{movie.overview}</div>
-              <div className="flex gap-3">
-                <Button icon="true">
-                  <LuStar className="text-xl" />
-                  Rate
-                </Button>
-                <Button icon="true">
-                  <LuBookmark className="text-xl" />
-                  Add to Watchlist
-                </Button>
-              </div>
+              {user && (
+                <div className="flex gap-3">
+                  <Button icon="true">
+                    <LuStar className="text-xl" />
+                    Rate
+                  </Button>
+                  {user.watchlist.includes(movie.id) ? (
+                    <Button icon="true" onClick={removeWatchlist}>
+                      <LuBookmarkMinus className="text-xl" />
+                      Remove from Watchlist
+                    </Button>
+                  ) : (
+                    <Button icon="true" onClick={addWatchlist}>
+                      <LuBookmarkPlus className="text-xl" />
+                      Add to Watchlist
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>

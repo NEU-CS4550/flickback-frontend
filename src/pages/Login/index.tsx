@@ -2,8 +2,10 @@ import { useState } from "react";
 import { api } from "@/utils/api";
 import { useAuth } from "@/utils/auth";
 import { getToken, setToken } from "@/utils/token";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const { getUser } = useAuth();
 
   const [username, setUsername] = useState("");
@@ -18,6 +20,7 @@ export default function Login() {
       .then((response) => {
         setToken(response.data);
         getUser();
+        navigate(-1);
       })
       .catch((err) => {
         console.log(err.response.data);

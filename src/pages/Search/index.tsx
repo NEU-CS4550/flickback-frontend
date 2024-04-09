@@ -17,7 +17,7 @@ export default function Search() {
   const search = debounce((q: string) => {
     q = q.trim();
     if (q == "") return setResults([]);
-    api.post("/search", { query: q }).then((response) => {
+    api.post("/actions/search", { query: q }).then((response) => {
       setResults(response.data.results);
       setTotalResults(response.data.total_results);
     });

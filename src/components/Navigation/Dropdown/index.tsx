@@ -21,9 +21,9 @@ export function AccountDropdown({ ...props }) {
             className="AccountDropdown__item--user AccountDropdown__item"
             to="/profile"
           >
-            <img src={user.pfp} />
+            <img src={user.user.pfp} />
             <div>
-              <span className="text-2xl">{user.username}</span>
+              <span className="text-2xl">{user.user.username}</span>
               <div className="text-sm">View Profile</div>
             </div>
           </Link>

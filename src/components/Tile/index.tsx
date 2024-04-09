@@ -20,7 +20,7 @@ export default function Tile({ movie }: { active?: boolean; movie: Movie }) {
         }
       >
         {!movie.poster_path && (
-          <LuCircleSlash2 className="Tile__poster--empty text-8xl" />
+          <LuCircleSlash2 className="Tile__poster--empty text-5xl xs:text-6xl sm:text-8xl lg:text-6xl xl:text-8xl" />
         )}
       </div>
       <span className="Tile__title text-base">{movie.title}</span>

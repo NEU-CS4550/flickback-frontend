@@ -39,13 +39,27 @@
   padding: 0 30px;
 }
 .Details__poster {
+  position: relative;
   background: var(--main-color);
   flex: 0 0 20%;
+  align-self: start;
 }
 .Details__poster > div {
+  background-size: contain;
+  background-repeat: no-repeat;
   padding-bottom: 150%;
   width: 100%;
   border-radius: 2px;
+}
+.Details__poster--empty {
+  stroke-width: 2.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  color: var(--darker-color);
 }
 .Details__title {
   font-weight: 900;

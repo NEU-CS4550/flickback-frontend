@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { Profile as ProfileT } from "@/utils/types";
+import { User } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Button from "@/components/Button";
@@ -11,27 +11,19 @@ import "./styles.css";
 export default function Profile() {
   const { profileId } = useParams();
   const { user } = useAuth();
-  const [profile, setProfile] = useState<ProfileT | null>(null);
+  const [profile, setProfile] = useState<User | null>(null);
 
   const follow = () => {
     if (!profile || !user) return;
     api.post(`/users/${profileId}/follow`).then(() => {
-      setProfile({
-        user: profile.user,
-        followers: [...profile.followers, user.id],
-        following: profile.following,
-      });
+      profile.followers = [...profile.followers, user.user.id];
     });
   };
 
   const unfollow = () => {
     if (!profile || !user) return;
     api.post(`/users/${profileId}/unfollow`).then(() => {
-      setProfile({
-        user: profile.user,
-        followers: profile.followers.filter((id) => id !== user.id),
-        following: profile.following,
-      });
+      profile.following = profile.followers.filter((id) => id !== user.user.id);
     });
   };
 
@@ -54,7 +46,7 @@ export default function Profile() {
           </div>
           {profileId ? (
             user &&
-            (profile.followers.includes(user.id) ? (
+            (profile.followers.includes(user.user.id) ? (
               <Button icon="true" onClick={unfollow}>
                 <LuUserX className="text-xl" />
                 Unfollow

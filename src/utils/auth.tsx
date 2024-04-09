@@ -11,6 +11,7 @@ import { User, UserContext } from "./types";
 const AuthContext = createContext<UserContext>({
   user: undefined,
   getUser: () => undefined,
+  setUser: () => undefined,
 });
 
 export const useAuth = () => {
@@ -21,7 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | undefined | null>(undefined);
 
   const getUser = async () => {
-    await api.get("/auth/session").then((resp) => {
+    await api.get("/profile").then((resp) => {
       setUser(resp.data);
     });
   };
@@ -31,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [document.cookie]);
 
   return (
-    <AuthContext.Provider value={{ user, getUser }}>
+    <AuthContext.Provider value={{ user, getUser, setUser }}>
       {children}
     </AuthContext.Provider>
   );
