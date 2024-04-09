@@ -14,7 +14,7 @@ export default function Tile({ movie }: { active?: boolean; movie: Movie }) {
           movie.poster_path
             ? {
                 backgroundImage:
-                  "url(" + api_image_url + movie.poster_path + ")",
+                  "url(" + api_image_url + "/w300" + movie.poster_path + ")",
               }
             : {}
         }

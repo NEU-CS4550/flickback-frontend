@@ -19,4 +19,5 @@ body {
   font-family: "Archivo", Arial, Helvetica, sans-serif;
   color: white;
   overflow-x: hidden;
+  overflow-x: clip;
 }
