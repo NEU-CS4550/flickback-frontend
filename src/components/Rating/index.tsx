@@ -1,10 +1,10 @@
 import { Rating as RatingT } from "@/utils/types";
 import Stars from "./Stars";
-
-import "./styles.css";
 import { Link } from "react-router-dom";
 import { formatDate } from "@/utils/format";
-import { LuHistory, LuUser } from "react-icons/lu";
+import { LuUser } from "react-icons/lu";
+
+import "./styles.css";
 
 export default function Rating({ rating }: { rating: RatingT }) {
   return (
