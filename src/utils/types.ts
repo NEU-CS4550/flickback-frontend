@@ -53,3 +53,14 @@ export type UserContext = {
   getUser: () => void;
   setUser: React.Dispatch<any>;
 };
+
+export type Rating = {
+  userId: string;
+  username: string;
+  pfp: string;
+  movieId: number;
+  movieName: string;
+  score: number;
+  review: string;
+  submitted: number; // timestamp
+};

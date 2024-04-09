@@ -1,0 +1,31 @@
+.Rating {
+  max-width: 500px;
+  background: var(--darker-color);
+  padding: 20px 30px;
+  border-radius: 2px;
+}
+.Rating .Stars {
+  margin-bottom: 10px;
+}
+.Rating__info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  align-items: center;
+}
+.Rating__info > * {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.Rating__info > a {
+  font-weight: 700;
+  transition: color 0.2s;
+}
+.Rating__info > a:hover {
+  color: var(--secondary-color);
+}
+.Rating__review {
+  color: rgba(255, 255, 255, 0.7);
+}

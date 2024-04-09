@@ -1,12 +1,11 @@
-import { api, api_image_url } from "@/utils/api";
 import { useAuth } from "@/utils/auth";
 
 import "./styles.css";
 
 export default function Watchlist() {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
 
-  const removeWatchlist = (movieId: number) => {
+  /*const removeWatchlist = (movieId: number) => {
     if (!user) return;
     api.post(`/movies/${movieId}/remove`).then(() => {
       setUser({
@@ -14,7 +13,7 @@ export default function Watchlist() {
         watchlist: user.watchlist.filter((id) => id != movieId),
       });
     });
-  };
+  };*/
 
   return (
     user && (

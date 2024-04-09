@@ -1,8 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { api, api_image_url } from "@/utils/api";
-import { MovieFull } from "@/utils/types";
-import { FaRegStar, FaStar } from "react-icons/fa";
+import { MovieFull, Rating as RatingT } from "@/utils/types";
 import { formatGenres, formatRuntime } from "@/utils/format";
 import Button from "@/components/Button";
 import {
@@ -12,6 +11,8 @@ import {
   LuBookmarkPlus,
 } from "react-icons/lu";
 import { useAuth } from "@/utils/auth";
+import Stars from "@/components/Rating/Stars";
+import Rating from "@/components/Rating";
 
 import "./styles.css";
 
@@ -19,6 +20,8 @@ export default function Details() {
   const { user, setUser } = useAuth();
   const { movieId } = useParams();
   const [movie, setMovie] = useState<MovieFull | null>(null);
+  const [rating, setRating] = useState({ score: 5, review: "" });
+  const [ratings, setRatings] = useState<RatingT[]>([]);
 
   const addWatchlist = () => {
     if (!user || !movie) return;
@@ -40,9 +43,36 @@ export default function Details() {
     });
   };
 
+  const submitRating = () => {
+    if (!user || !movie) return;
+    api.post(`/movies/${movieId}/rate`, {
+      userId: user.user.id,
+      username: user.user.username,
+      pfp: user.user.pfp,
+      movieId: movie.id,
+      movieName: movie.original_title,
+      score: rating.score,
+      review: rating.review,
+      submitted: Date.now(),
+    });
+  };
+
   useEffect(() => {
     api.get(`/movies/${movieId}`).then((response) => {
       setMovie(response.data);
+    });
+    api.get(`/movies/${movieId}/ratings`).then((response) => {
+      if (!response.data.others) {
+        setRatings(response.data);
+      } else {
+        if (response.data.mine) {
+          setRating({
+            score: response.data.mine.score,
+            review: response.data.mine.review,
+          });
+        }
+        setRatings(response.data.others);
+      }
     });
   }, [movieId]);
 
@@ -81,19 +111,8 @@ export default function Details() {
               </span>
               <span>{formatGenres(movie.genres)}</span>
               <span>{formatRuntime(movie.runtime)}</span>
-              <div className="Details__stars">
-                <FaRegStar />
-                <FaRegStar />
-                <FaRegStar />
-                <FaRegStar />
-                <FaRegStar />
-                <div style={{ width: movie.vote_average * 10 + "%" }}>
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                  <FaStar />
-                </div>
+              <div style={{ marginTop: "20px", marginBottom: "60px" }}>
+                <Stars score={movie.vote_average} />
               </div>
               <span className="italic text-lg mb-2">{movie.tagline}</span>
               <div className="mb-5">{movie.overview}</div>
@@ -119,7 +138,27 @@ export default function Details() {
             </div>
           </div>
         </div>
-        <div className="Details__wrapper2 container mx-auto"></div>
+        <div className="Details__ratings container mx-auto">
+          <input
+            type="number"
+            value={rating.score}
+            onChange={(e) => {
+              setRating({ ...rating, score: parseInt(e.target.value) });
+            }}
+          />
+          <input
+            value={rating.review}
+            onChange={(e) => {
+              setRating({ ...rating, review: e.target.value });
+            }}
+          />
+          <Button onClick={submitRating}> Submit </Button>
+          <div className="Details__ratings__list">
+            {ratings.map((r, i) => {
+              return <Rating key={i} rating={r} />;
+            })}
+          </div>
+        </div>
       </div>
     )
   );

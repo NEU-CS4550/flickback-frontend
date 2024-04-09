@@ -1,0 +1,19 @@
+.Stars {
+  position: relative;
+  display: inline-flex;
+  width: fit-content;
+  font-size: 20px;
+  color: var(--secondary-color);
+}
+.Stars svg {
+  flex: 0 0 auto;
+}
+.Stars > div {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  overflow: hidden;
+}
