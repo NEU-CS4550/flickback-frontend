@@ -16,14 +16,21 @@ export default function Profile() {
   const follow = () => {
     if (!profile || !user) return;
     api.post(`/users/${profileId}/follow`).then(() => {
-      profile.followers = [...profile.followers, user.user.id];
+      setProfile({
+        ...profile,
+        followers: [...profile.followers, user.user.id],
+      });
     });
   };
 
   const unfollow = () => {
     if (!profile || !user) return;
     api.post(`/users/${profileId}/unfollow`).then(() => {
-      profile.following = profile.followers.filter((id) => id !== user.user.id);
+      //profile.followers = profile.followers.filter((id) => id !== user.user.id);
+      setProfile({
+        ...profile,
+        followers: profile.followers.filter((id) => id !== user.user.id),
+      });
     });
   };
 

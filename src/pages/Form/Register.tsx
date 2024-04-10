@@ -66,7 +66,7 @@ export default function Register() {
             style={{ marginBottom: "30px" }}
           />
           <div></div>
-          Admin Account?
+          <span>Grant admin privileges? </span>
         </label>
         <Button onClick={register}>Register</Button>
         <span className="Form__switch">

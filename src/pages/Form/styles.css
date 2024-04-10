@@ -22,6 +22,7 @@
   margin: auto;
   margin-bottom: 20px;
 }
+
 .Form__input {
   margin-bottom: 30px;
   padding: 5px 0;
@@ -56,6 +57,49 @@
 .Form__input input:focus {
   outline: none;
 }
+
+.Form__checkbox {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  cursor: pointer;
+  width: fit-content;
+  margin-bottom: 30px;
+}
+.Form__checkbox > div {
+  width: 18px;
+  height: 18px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  margin-bottom: 1px;
+  position: relative;
+}
+.Form__checkbox > div:after {
+  position: absolute;
+  font-size: 18px;
+  line-height: 18px;
+  content: "✔";
+  width: 18px;
+  text-align: center;
+  color: var(--secondary-color);
+  opacity: 0;
+  transition: all 0.1s;
+  transform: scale(0.5);
+}
+.Form__checkbox > span {
+  font-size: 13px;
+  line-height: 18px;
+  color: rgba(255, 255, 255, 0.5);
+  user-select: none;
+}
+.Form__checkbox input {
+  display: none;
+}
+.Form__checkbox input:checked ~ div:after {
+  opacity: 1;
+  transform: scale(1);
+}
+
 .Form .Button {
   width: fit-content;
   margin: 20px auto;
