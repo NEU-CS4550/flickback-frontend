@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Layout from "@/components/Layout";
 import * as Pages from "@/pages";
 import { AuthProvider, useAuth } from "./utils/auth";
 import { ReactNode } from "react";
+import Layout from "./components/Layout";
 
 import "./global.css";
 
@@ -27,8 +27,8 @@ function Protected({
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <AuthProvider>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
+      <Layout>
+        <Routes>
           <Route index element={<Pages.Home />} />
           <Route
             path="/profile"
@@ -51,8 +51,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route path="/search" element={<Pages.Search />} />
           <Route path="/movies/:movieId" element={<Pages.Details />} />
           <Route path="/watchlist" element={<Pages.Watchlist />} />
-        </Route>
-      </Routes>
+        </Routes>
+      </Layout>
     </BrowserRouter>
   </AuthProvider>
 );

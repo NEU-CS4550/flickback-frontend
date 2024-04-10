@@ -1,0 +1,72 @@
+.Login,
+.Register {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  max-height: 500px;
+  padding: 30px;
+}
+.Form {
+  padding: 40px;
+  background: var(--darker-color);
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  width: 100%;
+  max-width: 500px;
+}
+.Form__label {
+  font-size: 1.5rem; /* 24px */
+  line-height: 2rem; /* 32px */
+  margin: auto;
+  margin-bottom: 20px;
+}
+.Form__input {
+  margin-bottom: 30px;
+  padding: 5px 0;
+  position: relative;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
+}
+.Form__input:before,
+.Form__input:after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: lavender;
+  opacity: 0.4;
+}
+.Form__input:after {
+  width: 0;
+  background: var(--secondary-color);
+  transition: all 0.4s ease;
+}
+.Form__input:focus-within:after {
+  width: 100%;
+  opacity: 1;
+}
+.Form__input input {
+  background: none;
+  width: 100%;
+}
+.Form__input input:focus {
+  outline: none;
+}
+.Form .Button {
+  width: fit-content;
+  margin: 20px auto;
+}
+.Form__switch {
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.25rem; /* 20px */
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+}
+.Form__switch a {
+  font-weight: 700;
+  color: var(--secondary-color);
+}

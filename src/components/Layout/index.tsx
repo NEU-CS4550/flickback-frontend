@@ -1,14 +1,15 @@
 import Navigation from "@/components/Navigation";
-import { Outlet } from "react-router-dom";
+import { AlertProvider } from "@/utils/alert";
+import { ReactNode } from "react";
 
 import "./styles.css";
 
-export default function Layout() {
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="Layout">
       <Navigation />
       <div className="Layout__content">
-        <Outlet />
+        <AlertProvider>{children}</AlertProvider>
       </div>
     </div>
   );

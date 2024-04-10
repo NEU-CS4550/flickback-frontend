@@ -10,7 +10,7 @@ export default function Logout() {
   useEffect(() => {
     clearToken();
     getUser();
-    navigate(-1);
+    navigate("/login");
   }, []);
   return <></>;
 }

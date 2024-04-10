@@ -64,3 +64,14 @@ export type Rating = {
   review: string;
   submitted: number; // timestamp
 };
+
+export type Alert = {
+  id: number;
+  type: string;
+  message: string;
+};
+
+export type AlertContext = {
+  alert: (type: string, message: string) => void;
+  dismiss: (id: number) => void;
+};

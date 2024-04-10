@@ -18,6 +18,7 @@ export default function Slider({
   const [slide, setSlide] = useState(0);
   const [slideWidth, setSlideWidth] = useState(0);
   const [slidesPerScroll, setSlidesPerScroll] = useState(0);
+  const [gap, setGap] = useState(30);
   const slider = useRef<HTMLDivElement>();
 
   useEffect(() => {
@@ -34,9 +35,10 @@ export default function Slider({
     const sliderWidth = slider.current.getBoundingClientRect().width;
     if (!slider.current.children[0]) return;
     const tempWidth =
-      slider.current.children[0].getBoundingClientRect().width + 30;
+      slider.current.children[0].getBoundingClientRect().width + gap;
     setSlideWidth(tempWidth);
-    setSlidesPerScroll(Math.round((sliderWidth + 30) / tempWidth));
+    setSlidesPerScroll(Math.round((sliderWidth + gap) / tempWidth));
+    setGap(parseInt(getComputedStyle(slider.current).rowGap.slice(0, -2)));
   };
 
   const setActiveSlides = () => {
@@ -65,7 +67,7 @@ export default function Slider({
         slider.current.childElementCount - 1
       ].getBoundingClientRect().x +
       slideWidth -
-      30;
+      gap;
 
     // scroll attempts for positive offset
     for (let i = 0; i < offset; i++) {

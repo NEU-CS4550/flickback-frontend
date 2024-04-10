@@ -153,7 +153,7 @@ export default function Details() {
             }}
           />
           <Button onClick={submitRating}> Submit </Button>
-          <div className="Details__ratings__list">
+          <div className="Details__ratings__list flex-col sm:flex-row">
             {ratings.map((r, i) => {
               return <Rating key={i} rating={r} />;
             })}
