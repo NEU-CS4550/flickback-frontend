@@ -78,7 +78,7 @@
   position: absolute;
   font-size: 18px;
   line-height: 18px;
-  content: "✔";
+  content: "✔\fe0e";
   width: 18px;
   text-align: center;
   color: var(--secondary-color);
