@@ -40,21 +40,25 @@ export default function Register() {
         <span className="Form__label">Register</span>
         <div className="Form__input">
           <input
+            name="username"
             placeholder="Username"
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
+            autoComplete="off"
           />
         </div>
         <div className="Form__input mb-2">
           <input
+            name="password"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            autoComplete="off"
           />
         </div>
         <label className="Form__checkbox">

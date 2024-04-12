@@ -1,13 +1,18 @@
+import { ComponentProps } from "react";
 import "./styles.css";
 
-export default function Button(props: any) {
+interface ButtonProps extends ComponentProps<"button"> {
+  icon?: boolean;
+}
+
+export default function Button({ icon, ...props }: ButtonProps) {
   return (
-    <div
+    <button
       className="Button"
       {...props}
-      style={props.icon ? { paddingLeft: "15px" } : {}}
+      style={icon ? { paddingLeft: "15px" } : {}}
     >
       {props.children}
-    </div>
+    </button>
   );
 }

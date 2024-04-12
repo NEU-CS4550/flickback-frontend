@@ -26,12 +26,12 @@ export const AlertProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AlertContext.Provider value={{ alert, dismiss }}>
-      {children}
       <div className="AlertProvider">
         {alerts.map((alert) => {
           return <Alert key={alert.id} alert={alert} />;
         })}
       </div>
+      {children}
     </AlertContext.Provider>
   );
 };

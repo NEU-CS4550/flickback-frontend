@@ -2,6 +2,7 @@
   background: var(--darker-color);
   padding: 20px 30px;
   border-radius: 2px;
+  flex: 1 0 auto;
 }
 .Rating .Stars {
   margin-bottom: 10px;
@@ -27,4 +28,5 @@
 }
 .Rating__review {
   color: rgba(255, 255, 255, 0.7);
+  word-wrap: break-word;
 }

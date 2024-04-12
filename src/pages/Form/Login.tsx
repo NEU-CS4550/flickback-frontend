@@ -40,21 +40,25 @@ export default function Login() {
         <span className="Form__label">Login</span>
         <div className="Form__input">
           <input
+            name="username"
             placeholder="Username"
             value={username}
             onChange={(e) => {
               setUsername(e.target.value);
             }}
+            autoComplete="off"
           />
         </div>
         <div className="Form__input">
           <input
+            name="password"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => {
               setPassword(e.target.value);
             }}
+            autoComplete="off"
           />
         </div>
         <Button onClick={login}>Login</Button>

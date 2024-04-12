@@ -54,19 +54,19 @@ export default function Profile() {
           {profileId ? (
             user &&
             (profile.followers.includes(user.user.id) ? (
-              <Button icon="true" onClick={unfollow}>
+              <Button icon onClick={unfollow}>
                 <LuUserX className="text-xl" />
                 Unfollow
               </Button>
             ) : (
-              <Button icon="true" onClick={follow}>
+              <Button icon onClick={follow}>
                 <LuUserPlus className="text-xl" />
                 Follow
               </Button>
             ))
           ) : (
             <Link to="/settings">
-              <Button icon="true">
+              <Button icon>
                 <LuSettings className="text-xl" />
                 Settings
               </Button>

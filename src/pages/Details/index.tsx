@@ -9,19 +9,28 @@ import {
   LuCircleSlash2,
   LuBookmarkMinus,
   LuBookmarkPlus,
+  LuPencil,
+  LuTrash2,
 } from "react-icons/lu";
 import { useAuth } from "@/utils/auth";
 import Stars from "@/components/Rating/Stars";
 import Rating from "@/components/Rating";
+import { useAlert } from "@/utils/alert";
 
 import "./styles.css";
 
 export default function Details() {
   const { user, setUser } = useAuth();
+  const { alert } = useAlert();
   const { movieId } = useParams();
+
+  const defaultRating = { score: 0, review: "" };
   const [movie, setMovie] = useState<MovieFull | null>(null);
-  const [rating, setRating] = useState({ score: 5, review: "" });
-  const [ratings, setRatings] = useState<RatingT[]>([]);
+  const [rating, setRating] = useState(defaultRating); // user's rating or default
+  const [ratings, setRatings] = useState<RatingT[]>([]); // other users' ratings
+  const [rated, setRated] = useState(false); // has current user rated?
+  const [editing, setEditing] = useState(false); // currently editing/drafting rating?
+  const [draft, setDraft] = useState(defaultRating); // temporary version of user's rating
 
   const addWatchlist = () => {
     if (!user || !movie) return;
@@ -45,15 +54,35 @@ export default function Details() {
 
   const submitRating = () => {
     if (!user || !movie) return;
-    api.post(`/movies/${movieId}/rate`, {
-      userId: user.user.id,
-      username: user.user.username,
-      pfp: user.user.pfp,
-      movieId: movie.id,
-      movieName: movie.original_title,
-      score: rating.score,
-      review: rating.review,
-      submitted: Date.now(),
+    if (JSON.stringify(draft) === JSON.stringify(rating)) {
+      setEditing(false);
+      return;
+    }
+    api
+      .post(`/movies/${movieId}/rate`, {
+        userId: user.user.id,
+        username: user.user.username,
+        pfp: user.user.pfp,
+        movieId: movie.id,
+        movieName: movie.original_title,
+        score: draft.score,
+        review: draft.review,
+        submitted: Date.now(),
+      })
+      .then(() => {
+        setRated(true);
+        setRating(draft);
+        setEditing(false);
+        alert("success", rated ? "Rating updated." : "Rating submitted.");
+      });
+  };
+
+  const deleteRating = () => {
+    if (!user || !movie) return;
+    api.delete(`/movies/${movieId}/rate`).then(() => {
+      setRated(false);
+      setRating(defaultRating);
+      alert("success", "Rating deleted.");
     });
   };
 
@@ -66,6 +95,7 @@ export default function Details() {
         setRatings(response.data);
       } else {
         if (response.data.mine) {
+          setRated(true);
           setRating({
             score: response.data.mine.score,
             review: response.data.mine.review,
@@ -118,17 +148,25 @@ export default function Details() {
               <div className="mb-5">{movie.overview}</div>
               {user && (
                 <div className="flex gap-3">
-                  <Button icon="true">
-                    <LuStar className="text-xl" />
-                    Rate
-                  </Button>
+                  {!rated && (
+                    <Button
+                      icon
+                      onClick={() => {
+                        setDraft(rating);
+                        setEditing(!editing);
+                      }}
+                    >
+                      <LuStar className="text-xl" />
+                      Rate
+                    </Button>
+                  )}
                   {user.watchlist.includes(movie.id) ? (
-                    <Button icon="true" onClick={removeWatchlist}>
+                    <Button icon onClick={removeWatchlist}>
                       <LuBookmarkMinus className="text-xl" />
                       Remove from Watchlist
                     </Button>
                   ) : (
-                    <Button icon="true" onClick={addWatchlist}>
+                    <Button icon onClick={addWatchlist}>
                       <LuBookmarkPlus className="text-xl" />
                       Add to Watchlist
                     </Button>
@@ -139,21 +177,86 @@ export default function Details() {
           </div>
         </div>
         <div className="Details__ratings container mx-auto">
-          <input
-            type="number"
-            value={rating.score}
-            onChange={(e) => {
-              setRating({ ...rating, score: parseInt(e.target.value) });
-            }}
-          />
-          <input
-            value={rating.review}
-            onChange={(e) => {
-              setRating({ ...rating, review: e.target.value });
-            }}
-          />
-          <Button onClick={submitRating}> Submit </Button>
-          <div className="Details__ratings__list flex-col sm:flex-row">
+          {(rated || editing) && (
+            <>
+              <span className="text-2xl">
+                {rated ? "Your Rating" : "New Rating"}
+              </span>
+              <div className="Details__form">
+                <div className="Details__form__head">
+                  <Stars
+                    score={editing ? draft.score : rating.score}
+                    {...(editing
+                      ? {
+                          onChange: (newScore: number) => {
+                            setDraft({
+                              ...rating,
+                              score: newScore,
+                            });
+                          },
+                        }
+                      : {})}
+                  />
+                  {editing ? (
+                    <Button onClick={submitRating}>
+                      {JSON.stringify(draft) === JSON.stringify(rating)
+                        ? "Cancel"
+                        : rated
+                        ? "Save"
+                        : "Submit"}
+                    </Button>
+                  ) : (
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={() => {
+                          setDraft(rating);
+                          setEditing(true);
+                        }}
+                      >
+                        <LuPencil />
+                      </Button>
+                      <Button
+                        onClick={() => {
+                          deleteRating();
+                        }}
+                      >
+                        <LuTrash2 />
+                      </Button>
+                    </div>
+                  )}
+                </div>
+                {editing ? (
+                  <div className="Details__review">
+                    <span>{draft.review ? draft.review : " "}</span>
+                    <textarea
+                      name="review"
+                      value={draft.review}
+                      placeholder="Review (optional)"
+                      onChange={(e) => {
+                        setDraft({ ...draft, review: e.target.value });
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                        }
+                      }}
+                      autoComplete="off"
+                    ></textarea>
+                  </div>
+                ) : (
+                  <div className="Details__review">
+                    {rating.review
+                      ? rating.review
+                      : "Your rating does not include a review."}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+          <span className="text-2xl">
+            {ratings.length > 0 ? "User Ratings" : "No Ratings Yet"}
+          </span>
+          <div className="Details__ratings__list columns-1 md:columns-2 lg:columns-3">
             {ratings.map((r, i) => {
               return <Rating key={i} rating={r} />;
             })}
