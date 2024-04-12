@@ -198,13 +198,21 @@ export default function Details() {
                       : {})}
                   />
                   {editing ? (
-                    <Button onClick={submitRating}>
-                      {JSON.stringify(draft) === JSON.stringify(rating)
-                        ? "Cancel"
-                        : rated
-                        ? "Save"
-                        : "Submit"}
-                    </Button>
+                    <div className="flex gap-2">
+                      {JSON.stringify(draft) !== JSON.stringify(rating) && (
+                        <Button onClick={submitRating}>
+                          {rated ? "Save" : "Submit"}
+                        </Button>
+                      )}
+                      <Button
+                        onClick={() => {
+                          setDraft(rating);
+                          setEditing(false);
+                        }}
+                      >
+                        Cancel
+                      </Button>
+                    </div>
                   ) : (
                     <div className="flex gap-2">
                       <Button
