@@ -24,15 +24,10 @@ export type MovieFull = {
 };
 
 export type User = {
-  user: {
-    id: string;
-    username: string;
-    role: string;
-    pfp: string;
-  };
-  followers: string[];
-  following: string[];
-  watchlist: Movie[];
+  id: string;
+  username: string;
+  role: string;
+  pfp: string;
 };
 
 // undefined as default before checking if logged in

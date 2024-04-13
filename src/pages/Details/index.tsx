@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { api, api_image_url } from "@/utils/api";
-import { MovieFull, Rating as RatingT } from "@/utils/types";
+import { Movie, MovieFull, Rating as RatingT } from "@/utils/types";
 import { formatGenres, formatRuntime } from "@/utils/format";
 import Button from "@/components/Button";
 import {
@@ -22,13 +22,15 @@ import { useAlert } from "@/utils/alert";
 import "./styles.css";
 
 export default function Details() {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const { alert } = useAlert();
   const { movieId } = useParams();
   const navigate = useNavigate();
 
-  const defaultRating = { score: 0, review: "" };
   const [movie, setMovie] = useState<MovieFull | null>(null);
+  const [watchlist, setWatchlist] = useState<Movie[]>([]);
+
+  const defaultRating = { score: 0, review: "" };
   const [rating, setRating] = useState(defaultRating); // user's rating or default
   const [ratings, setRatings] = useState<RatingT[]>([]); // other users' ratings
   const [rated, setRated] = useState(false); // has current user rated?
@@ -38,25 +40,19 @@ export default function Details() {
 
   const addWatchlist = () => {
     if (!user || !movie) return;
-    api.post(`/movies/${movieId}/add`).then(() => {
-      setUser({
-        ...user,
-        watchlist: [
-          ...user.watchlist,
-          { id: movie.id, title: movie.title, poster_path: movie.poster_path },
-        ],
-      });
+    api.post(`/actions/watchlist/${movieId}`).then(() => {
+      setWatchlist([
+        ...watchlist,
+        { id: movie.id, title: movie.title, poster_path: movie.poster_path },
+      ]);
       alert("success", "Added to watchlist.");
     });
   };
 
   const removeWatchlist = () => {
     if (!user || !movie) return;
-    api.post(`/movies/${movieId}/remove`).then(() => {
-      setUser({
-        ...user,
-        watchlist: user.watchlist.filter((mov) => mov.id != movie.id),
-      });
+    api.post(`/actions/unwatchlist/${movieId}`).then(() => {
+      setWatchlist(watchlist.filter((mov) => mov.id != movie.id));
       alert("success", "Removed from watchlist.");
     });
   };
@@ -68,10 +64,10 @@ export default function Details() {
       return;
     }
     api
-      .post(`/movies/${movieId}/rate`, {
-        userId: user.user.id,
-        username: user.user.username,
-        pfp: user.user.pfp,
+      .post(`/actions/rate/${movieId}`, {
+        userId: user.id,
+        username: user.username,
+        pfp: user.pfp,
         movieId: movie.id,
         movieName: movie.title,
         score: draft.score,
@@ -88,7 +84,7 @@ export default function Details() {
 
   const deleteRating = () => {
     if (!user || !movie) return;
-    api.delete(`/movies/${movieId}/rate`).then(() => {
+    api.delete(`/actions/rate/${movieId}`).then(() => {
       setRated(false);
       setRating(defaultRating);
       alert("success", "Rating deleted.");
@@ -176,7 +172,7 @@ export default function Details() {
                       Rate
                     </Button>
                   )}
-                  {user.watchlist.find((mov) => mov.id == movie.id) ? (
+                  {watchlist.find((mov) => mov.id == movie.id) ? (
                     <Button icon onClick={removeWatchlist}>
                       <LuBookmarkMinus className="text-xl" />
                       Remove from Watchlist
@@ -195,7 +191,7 @@ export default function Details() {
         <div className="Details__ratings container mx-auto">
           {(rated || editing) && (
             <>
-              <span className="text-2xl">
+              <span className="text-2xl font-bold">
                 {rated ? "Your Rating" : "New Rating"}
               </span>
               <div className="Details__form">
@@ -277,7 +273,7 @@ export default function Details() {
               </div>
             </>
           )}
-          <span className="text-2xl">
+          <span className="text-2xl font-bold">
             {ratings.length > 0
               ? "User Ratings"
               : rated

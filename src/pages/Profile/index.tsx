@@ -1,5 +1,5 @@
 import { api } from "@/utils/api";
-import { User } from "@/utils/types";
+import { Rating as RatingT, User } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "@/components/Button";
@@ -7,71 +7,84 @@ import { LuSettings, LuUserX, LuUserPlus } from "react-icons/lu";
 import { useAuth } from "@/utils/auth";
 
 import "./styles.css";
+import Rating from "@/components/Rating";
 
 export default function Profile() {
   const navigate = useNavigate();
   const { profileId } = useParams();
-  const { user, setUser } = useAuth();
-  const [profile, setProfile] = useState<User | null>(null);
+  const { user } = useAuth();
+
+  const [profile, setProfile] = useState<User>();
+  const [following, setFollowing] = useState<User[]>([]);
+  const [followers, setFollowers] = useState<User[]>([]);
+
+  const [ratings, setRatings] = useState<RatingT[]>([]);
+  const [ready, setReady] = useState(false);
 
   const follow = () => {
-    if (!profile || !user) return;
-    api.post(`/users/${profileId}/follow`).then(() => {
-      setProfile({
-        ...profile,
-        followers: [...profile.followers, user.user.id],
-      });
-      setUser({
-        ...user,
-        following: [...user.following, profileId],
-      });
+    if (!profileId! || !user) return;
+    api.post(`/actions/follow/${profileId}`).then(() => {
+      setFollowers([...followers, user]);
     });
   };
 
   const unfollow = () => {
-    if (!profile || !user) return;
-    api.post(`/users/${profileId}/unfollow`).then(() => {
-      //profile.followers = profile.followers.filter((id) => id !== user.user.id);
-      setProfile({
-        ...profile,
-        followers: profile.followers.filter((id) => id !== user.user.id),
-      });
-      setUser({
-        ...user,
-        following: user.followers.filter((id) => id !== profileId),
-      });
+    if (!profileId || !user) return;
+    api.post(`/actions/unfollow/${profileId}`).then(() => {
+      setFollowers(followers.filter((follower) => follower.id !== user.id));
     });
   };
 
+  const getProfile = () => {
+    if (!profileId && !user) return Promise.reject();
+    if (user && profileId == user.id) navigate("/profile");
+    const query = profileId ?? user?.id;
+    return Promise.all([
+      api.get(`users/${query}/profile`).then((response) => {
+        setProfile(response.data);
+      }),
+      api.get(`users/${query}/followers`).then((response) => {
+        setFollowers(response.data);
+      }),
+      api.get(`users/${query}/following`).then((response) => {
+        setFollowing(response.data);
+        if (!profileId) {
+          response.data.map((followee: User) => {
+            api.get(`users/${followee.id}/ratings`).then((response) => {
+              setRatings((prevRatings) => [...prevRatings, ...response.data]);
+            });
+          });
+        }
+      }),
+      api.get(`users/${query}/ratings`).then((response) => {
+        setRatings((prevRatings) => [...prevRatings, ...response.data]);
+      }),
+    ]);
+  };
+
   useEffect(() => {
-    if (profileId) {
-      api
-        .get(`users/${profileId}/profile`)
-        .then((response) => {
-          setProfile(response.data);
-        })
-        .catch(() => {
-          navigate("/404");
-        });
-    } else {
-      if (!user) return;
-      setProfile(user);
-    }
-  }, []);
+    getProfile()
+      .then(() => {
+        setReady(true);
+      })
+      .catch(() => {
+        navigate("/404");
+      });
+  }, [user]);
 
   return (
+    ready &&
     profile && (
       <div className="Profile container mx-auto">
         <div className="Profile__head">
-          <img src={profile.user.pfp} />
-          <span className="Profile__username">{profile.user.username}</span>
+          <img src={profile.pfp} />
+          <span className="Profile__username">{profile.username}</span>
           <div className="flex gap-3 mb-5">
-            <span>{profile.followers.length} Followers</span>
-            <span>{profile.following.length} Following</span>
+            <span>{followers.length} Followers</span>
+            <span>{following.length} Following</span>
           </div>
-          {profileId ? (
-            user &&
-            (profile.followers.includes(user.user.id) ? (
+          {profileId && user ? (
+            followers.find((follower) => follower.id == user.id) ? (
               <Button icon onClick={unfollow}>
                 <LuUserX className="text-xl" />
                 Unfollow
@@ -81,14 +94,88 @@ export default function Profile() {
                 <LuUserPlus className="text-xl" />
                 Follow
               </Button>
-            ))
-          ) : (
+            )
+          ) : user ? (
             <Link to="/settings">
               <Button icon>
                 <LuSettings className="text-xl" />
                 Settings
               </Button>
             </Link>
+          ) : (
+            <></>
+          )}
+        </div>
+        <div className="Profile__body flex-col md:flex-row-reverse items-center md:items-start">
+          {(user && followers.find((follower) => follower.id == user.id)) ||
+          (user && user.id == profile.id) ? (
+            <>
+              {(followers.length > 0 || following.length > 0) && (
+                <div className="Profile__follows w-full md:w-auto">
+                  <div>
+                    <span className="text-lg">
+                      <b>({followers.length})</b> Followers
+                    </span>
+                    <div className="Profile__follows__list mb-10 md:max-w-28">
+                      {followers.map((follower, i) => {
+                        return (
+                          <Link key={i} to={"/users/" + follower.id}>
+                            <div
+                              className="Profile__follower"
+                              style={{
+                                backgroundImage: `url(${follower.pfp})`,
+                              }}
+                            ></div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                    <span className="text-lg">
+                      <b>({following.length})</b> Following
+                    </span>
+                    <div className="Profile__follows__list">
+                      {following.map((followee, i) => {
+                        return (
+                          <Link key={i} to={"/users/" + followee.id}>
+                            <div
+                              className="Profile__follower"
+                              style={{
+                                backgroundImage: `url(${followee.pfp})`,
+                              }}
+                            ></div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+              )}
+              <div className="Profile__ratings">
+                <span className="text-2xl font-bold">Activity Feed</span>
+                <div className="Profile__ratings__list">
+                  {ratings.map((rating: RatingT, i) => {
+                    return (
+                      <div key={i}>
+                        <span className="Profile__rating__label">
+                          {new Date(rating.submitted).toLocaleDateString(
+                            "en-US"
+                          )}
+                          <br />
+                          <b>{rating.username}</b> rated{" "}
+                          <i>{rating.movieName}</i>
+                        </span>
+                        <Rating rating={rating} concise />
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          ) : (
+            <span className="Profile__private text-lg">
+              You must {!user && "login and"} follow {profile.username} to view
+              their profile.
+            </span>
           )}
         </div>
       </div>

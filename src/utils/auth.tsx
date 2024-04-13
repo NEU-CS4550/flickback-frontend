@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | undefined | null>(undefined);
 
   const getUser = async () => {
-    await api.get("/profile").then((resp) => {
+    await api.get("/user").then((resp) => {
       setUser(resp.data);
     });
   };
