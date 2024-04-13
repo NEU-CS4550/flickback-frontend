@@ -1,7 +1,6 @@
 import Home from "./Home";
 import Profile from "./Profile";
-import Settings from "./Settings";
-import { Login, Register } from "./Form";
+import { Login, Register, Settings } from "./Form";
 import Logout from "./Logout";
 import Search from "./Search";
 import Details from "./Details";

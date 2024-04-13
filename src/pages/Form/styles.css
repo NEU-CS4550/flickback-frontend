@@ -1,10 +1,11 @@
 .Login,
-.Register {
+.Register,
+.Settings {
   display: flex;
   flex: 1;
   justify-content: center;
   align-items: center;
-  max-height: 500px;
+  max-height: 600px;
   padding: 30px;
 }
 .Form {
@@ -103,6 +104,9 @@
 .Form .Button {
   width: fit-content;
   margin: 20px auto;
+}
+.Settings .Button {
+  margin: 20px 0;
 }
 .Form__switch {
   font-size: 0.875rem; /* 14px */

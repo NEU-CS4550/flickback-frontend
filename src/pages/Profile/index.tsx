@@ -35,41 +35,46 @@ export default function Profile() {
     });
   };
 
-  const getProfile = () => {
-    if (!profileId && !user) return Promise.reject();
+  const getProfile = async () => {
+    if (!profileId && !user) throw new Error();
     if (user && profileId == user.id) navigate("/profile");
     const query = profileId ?? user?.id;
-    return Promise.all([
-      api.get(`users/${query}/profile`).then((response) => {
-        setProfile(response.data);
-      }),
-      api.get(`users/${query}/followers`).then((response) => {
-        setFollowers(response.data);
-      }),
-      api.get(`users/${query}/following`).then((response) => {
-        setFollowing(response.data);
-        if (!profileId) {
-          response.data.map((followee: User) => {
-            api.get(`users/${followee.id}/ratings`).then((response) => {
-              setRatings((prevRatings) => [...prevRatings, ...response.data]);
-            });
-          });
-        }
-      }),
-      api.get(`users/${query}/ratings`).then((response) => {
-        setRatings((prevRatings) => [...prevRatings, ...response.data]);
-      }),
-    ]);
+
+    const apiProfile = await api
+      .get(`users/${query}/profile`)
+      .then((response: any) => {
+        return response.data;
+      });
+    const apiFollowers = await api
+      .get(`users/${query}/followers`)
+      .then((response: any) => {
+        return response.data;
+      });
+    const apiFollowing = await api
+      .get(`users/${query}/following`)
+      .then(async (response) => {
+        return response.data;
+      });
+
+    const apiRatings = await api
+      .get(`users/${query}/ratings`)
+      .then((response) => {
+        return response.data;
+      });
+
+    setProfile(apiProfile);
+    setFollowers(apiFollowers);
+    setFollowing(apiFollowing);
+    setRatings(apiRatings);
+    setReady(true);
   };
 
   useEffect(() => {
-    getProfile()
-      .then(() => {
-        setReady(true);
-      })
-      .catch(() => {
-        navigate("/404");
-      });
+    try {
+      getProfile();
+    } catch (e) {
+      navigate("/404");
+    }
   }, [user]);
 
   return (
@@ -151,7 +156,9 @@ export default function Profile() {
                 </div>
               )}
               <div className="Profile__ratings">
-                <span className="text-2xl font-bold">Activity Feed</span>
+                <span className="text-2xl font-bold">
+                  {ratings.length > 0 ? "Activity Feed" : "No Activity Yet"}
+                </span>
                 <div className="Profile__ratings__list">
                   {ratings.map((rating: RatingT, i) => {
                     return (

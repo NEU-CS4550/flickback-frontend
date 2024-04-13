@@ -1,0 +1,63 @@
+.Input {
+  margin-bottom: 30px;
+  padding: 5px 0;
+  position: relative;
+  font-size: 1.125rem; /* 18px */
+  line-height: 1.75rem; /* 28px */
+}
+.Input:before,
+.Input:after {
+  position: absolute;
+  content: "";
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: lavender;
+  opacity: 0.4;
+}
+.Input:after {
+  width: 0;
+  background: var(--secondary-color);
+  transition: all 0.4s ease;
+}
+.Input:focus-within:after {
+  width: 100%;
+  opacity: 1;
+}
+.Input input {
+  position: relative;
+  background: none;
+  width: 100%;
+  z-index: 2;
+}
+.Input input:focus {
+  outline: none;
+}
+
+.Input input:disabled {
+  cursor: not-allowed;
+}
+
+.Input input:placeholder-shown ~ .Input__label {
+  top: 5px;
+  color: lavender;
+  opacity: 0.4;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.Input__label,
+.Input input:focus:placeholder-shown ~ .Input__label {
+  position: absolute;
+  color: var(--secondary-color);
+  opacity: 1;
+  line-height: 14px;
+  font-size: 14px;
+  top: -9px;
+  left: 0;
+  transition: all 0.2s;
+  z-index: 1;
+  line-height: 14px;
+  font-size: 14px;
+}

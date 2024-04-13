@@ -8,13 +8,13 @@ import { Movie } from "@/utils/types";
 import { useEffect, useState } from "react";
 
 export default function Watchlist() {
-  const { user, setUser } = useAuth();
+  const { user } = useAuth();
   const [watchlist, setWatchlist] = useState<Movie[]>([]);
 
   const removeWatchlist = (movieId: number) => {
     if (!user) return;
     api.post(`/actions/unwatchlist/${movieId}`).then(() => {
-      setUser(watchlist.filter((mov) => mov.id != movieId));
+      setWatchlist(watchlist.filter((mov) => mov.id != movieId));
     });
   };
 
