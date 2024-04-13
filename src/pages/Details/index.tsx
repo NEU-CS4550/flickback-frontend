@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { api, api_image_url } from "@/utils/api";
 import { MovieFull, Rating as RatingT } from "@/utils/types";
@@ -11,6 +11,8 @@ import {
   LuBookmarkPlus,
   LuPencil,
   LuTrash2,
+  LuX,
+  LuCheck,
 } from "react-icons/lu";
 import { useAuth } from "@/utils/auth";
 import Stars from "@/components/Rating/Stars";
@@ -23,6 +25,7 @@ export default function Details() {
   const { user, setUser } = useAuth();
   const { alert } = useAlert();
   const { movieId } = useParams();
+  const navigate = useNavigate();
 
   const defaultRating = { score: 0, review: "" };
   const [movie, setMovie] = useState<MovieFull | null>(null);
@@ -31,14 +34,19 @@ export default function Details() {
   const [rated, setRated] = useState(false); // has current user rated?
   const [editing, setEditing] = useState(false); // currently editing/drafting rating?
   const [draft, setDraft] = useState(defaultRating); // temporary version of user's rating
+  const [ready, setReady] = useState(false); // have all states finished loading defaults?
 
   const addWatchlist = () => {
     if (!user || !movie) return;
     api.post(`/movies/${movieId}/add`).then(() => {
       setUser({
         ...user,
-        watchlist: [...user.watchlist, movie.id],
+        watchlist: [
+          ...user.watchlist,
+          { id: movie.id, title: movie.title, poster_path: movie.poster_path },
+        ],
       });
+      alert("success", "Added to watchlist.");
     });
   };
 
@@ -47,8 +55,9 @@ export default function Details() {
     api.post(`/movies/${movieId}/remove`).then(() => {
       setUser({
         ...user,
-        watchlist: user.watchlist.filter((id) => id != movie.id),
+        watchlist: user.watchlist.filter((mov) => mov.id != movie.id),
       });
+      alert("success", "Removed from watchlist.");
     });
   };
 
@@ -64,7 +73,7 @@ export default function Details() {
         username: user.user.username,
         pfp: user.user.pfp,
         movieId: movie.id,
-        movieName: movie.original_title,
+        movieName: movie.title,
         score: draft.score,
         review: draft.review,
         submitted: Date.now(),
@@ -87,9 +96,14 @@ export default function Details() {
   };
 
   useEffect(() => {
-    api.get(`/movies/${movieId}`).then((response) => {
-      setMovie(response.data);
-    });
+    api
+      .get(`/movies/${movieId}`)
+      .then((response) => {
+        setMovie(response.data);
+      })
+      .catch(() => {
+        navigate("/404");
+      });
     api.get(`/movies/${movieId}/ratings`).then((response) => {
       if (!response.data.others) {
         setRatings(response.data);
@@ -103,10 +117,12 @@ export default function Details() {
         }
         setRatings(response.data.others);
       }
+      setReady(true);
     });
   }, [movieId]);
 
   return (
+    ready &&
     movie && (
       <div className="Details">
         <div className="Details__wrapper">
@@ -136,7 +152,7 @@ export default function Details() {
             </div>
             <div className="flex flex-col">
               <span className="Details__title text-2xl md:text-4xl">
-                {movie.original_title}
+                {movie.title}
                 <span> ({movie.release_date.split("-")[0]})</span>
               </span>
               <span>{formatGenres(movie.genres)}</span>
@@ -160,7 +176,7 @@ export default function Details() {
                       Rate
                     </Button>
                   )}
-                  {user.watchlist.includes(movie.id) ? (
+                  {user.watchlist.find((mov) => mov.id == movie.id) ? (
                     <Button icon onClick={removeWatchlist}>
                       <LuBookmarkMinus className="text-xl" />
                       Remove from Watchlist
@@ -201,7 +217,7 @@ export default function Details() {
                     <div className="flex gap-2">
                       {JSON.stringify(draft) !== JSON.stringify(rating) && (
                         <Button onClick={submitRating}>
-                          {rated ? "Save" : "Submit"}
+                          <LuCheck />
                         </Button>
                       )}
                       <Button
@@ -210,7 +226,7 @@ export default function Details() {
                           setEditing(false);
                         }}
                       >
-                        Cancel
+                        <LuX />
                       </Button>
                     </div>
                   ) : (
@@ -262,7 +278,11 @@ export default function Details() {
             </>
           )}
           <span className="text-2xl">
-            {ratings.length > 0 ? "User Ratings" : "No Ratings Yet"}
+            {ratings.length > 0
+              ? "User Ratings"
+              : rated
+              ? "No Other Ratings Yet"
+              : "No Ratings Yet"}
           </span>
           <div className="Details__ratings__list columns-1 md:columns-2 lg:columns-3">
             {ratings.map((r, i) => {

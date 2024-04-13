@@ -9,6 +9,7 @@
   z-index: 80;
 }
 .Alert {
+  flex: 0 0 auto;
   display: block;
   cursor: pointer;
   padding: 12px 18px;

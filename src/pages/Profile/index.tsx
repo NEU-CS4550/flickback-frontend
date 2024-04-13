@@ -1,7 +1,7 @@
 import { api } from "@/utils/api";
 import { User } from "@/utils/types";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "@/components/Button";
 import { LuSettings, LuUserX, LuUserPlus } from "react-icons/lu";
 import { useAuth } from "@/utils/auth";
@@ -9,8 +9,9 @@ import { useAuth } from "@/utils/auth";
 import "./styles.css";
 
 export default function Profile() {
+  const navigate = useNavigate();
   const { profileId } = useParams();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [profile, setProfile] = useState<User | null>(null);
 
   const follow = () => {
@@ -19,6 +20,10 @@ export default function Profile() {
       setProfile({
         ...profile,
         followers: [...profile.followers, user.user.id],
+      });
+      setUser({
+        ...user,
+        following: [...user.following, profileId],
       });
     });
   };
@@ -31,14 +36,27 @@ export default function Profile() {
         ...profile,
         followers: profile.followers.filter((id) => id !== user.user.id),
       });
+      setUser({
+        ...user,
+        following: user.followers.filter((id) => id !== profileId),
+      });
     });
   };
 
   useEffect(() => {
-    const query = profileId ? `users/${profileId}` : "";
-    api.get(`${query}/profile`).then((response) => {
-      setProfile(response.data);
-    });
+    if (profileId) {
+      api
+        .get(`users/${profileId}/profile`)
+        .then((response) => {
+          setProfile(response.data);
+        })
+        .catch(() => {
+          navigate("/404");
+        });
+    } else {
+      if (!user) return;
+      setProfile(user);
+    }
   }, []);
 
   return (

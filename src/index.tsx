@@ -51,6 +51,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route path="/search" element={<Pages.Search />} />
           <Route path="/movies/:movieId" element={<Pages.Details />} />
           <Route path="/watchlist" element={<Pages.Watchlist />} />
+          <Route path="/404" element={<Pages.NotFound />} />
+          <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
       </Layout>
     </BrowserRouter>

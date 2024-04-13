@@ -1,0 +1,53 @@
+.Watchlist {
+  padding: 30px 10vw;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+.Watchlist > span {
+  width: 100%;
+}
+.Watchlist > span b {
+  font-weight: 800;
+  color: var(--secondary-color);
+}
+
+.Watchlist__Tile {
+  position: relative;
+  flex: 0 1 calc(20% - 24px);
+}
+.Watchlist__Tile .Tile__poster:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(
+    to top right,
+    transparent 70%,
+    var(--darkest-color)
+  );
+}
+.Watchlist__remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+.Watchlist__remove:hover {
+  color: var(--secondary-color);
+}
+
+@media (max-width: 1535px) {
+  .Watchlist__Tile {
+    flex-basis: calc(25% - 22.5px);
+  }
+}
+@media (max-width: 1023px) {
+  .Watchlist__Tile {
+    flex-basis: calc(50% - 20px);
+  }
+}
