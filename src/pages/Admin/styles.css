@@ -9,7 +9,7 @@
 .Admin__table {
   background: var(--darker-color);
   border-radius: 2px;
-  padding: 30px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -40,6 +40,7 @@
 .Admin__table__info {
   width: 100%;
   background: none;
+  padding-right: 10px;
 }
 .Admin__table__info:focus {
   outline: none;

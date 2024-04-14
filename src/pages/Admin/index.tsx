@@ -99,9 +99,9 @@ export default function Admin() {
                           const input = e.currentTarget.parentElement
                             ?.previousSibling as HTMLInputElement;
                           debounce(() => {
-                            console.log(input);
                             input.focus();
-                          }, 1)();
+                            input.setSelectionRange(-1, -1);
+                          }, 10)();
                         }}
                       >
                         <LuPencil />
