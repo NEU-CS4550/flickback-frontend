@@ -3,7 +3,7 @@ import { Rating as RatingT, User } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from "@/components/Button";
-import { LuSettings, LuUserX, LuUserPlus } from "react-icons/lu";
+import { LuSettings, LuUserX, LuUserPlus, LuKeyRound } from "react-icons/lu";
 import { useAuth } from "@/utils/auth";
 
 import "./styles.css";
@@ -62,6 +62,7 @@ export default function Profile() {
         return response.data;
       });
 
+    //setAdmin();
     setProfile(apiProfile);
     setFollowers(apiFollowers);
     setFollowing(apiFollowing);
@@ -75,7 +76,7 @@ export default function Profile() {
     } catch (e) {
       navigate("/404");
     }
-  }, [user]);
+  }, [user, profileId]);
 
   return (
     ready &&
@@ -88,28 +89,40 @@ export default function Profile() {
             <span>{followers.length} Followers</span>
             <span>{following.length} Following</span>
           </div>
-          {profileId && user ? (
-            followers.find((follower) => follower.id == user.id) ? (
-              <Button icon onClick={unfollow}>
-                <LuUserX className="text-xl" />
-                Unfollow
-              </Button>
+          <div className="flex gap-3">
+            {profileId && user ? (
+              followers.find((follower) => follower.id == user.id) ? (
+                <Button icon onClick={unfollow}>
+                  <LuUserX className="text-xl" />
+                  Unfollow
+                </Button>
+              ) : (
+                <Button icon onClick={follow}>
+                  <LuUserPlus className="text-xl" />
+                  Follow
+                </Button>
+              )
+            ) : user ? (
+              <>
+                {user.role == "ADMIN" && (
+                  <Link to="/admin">
+                    <Button icon>
+                      <LuKeyRound className="text-xl" />
+                      Admin
+                    </Button>
+                  </Link>
+                )}
+                <Link to="/settings">
+                  <Button icon>
+                    <LuSettings className="text-xl" />
+                    Settings
+                  </Button>
+                </Link>
+              </>
             ) : (
-              <Button icon onClick={follow}>
-                <LuUserPlus className="text-xl" />
-                Follow
-              </Button>
-            )
-          ) : user ? (
-            <Link to="/settings">
-              <Button icon>
-                <LuSettings className="text-xl" />
-                Settings
-              </Button>
-            </Link>
-          ) : (
-            <></>
-          )}
+              <></>
+            )}
+          </div>
         </div>
         <div className="Profile__body flex-col md:flex-row-reverse items-center md:items-start">
           {(user && followers.find((follower) => follower.id == user.id)) ||
@@ -155,7 +168,12 @@ export default function Profile() {
                   </div>
                 </div>
               )}
-              <div className="Profile__ratings">
+              <div
+                className={
+                  "Profile__ratings" +
+                  (ratings.length > 0 ? "" : " text-center")
+                }
+              >
                 <span className="text-2xl font-bold">
                   {ratings.length > 0 ? "Activity Feed" : "No Activity Yet"}
                 </span>
@@ -171,7 +189,9 @@ export default function Profile() {
                           <b>{rating.username}</b> rated{" "}
                           <i>{rating.movieName}</i>
                         </span>
-                        <Rating rating={rating} concise />
+                        <Link to={`/movies/${rating.movieId}`}>
+                          <Rating rating={rating} concise />
+                        </Link>
                       </div>
                     );
                   })}

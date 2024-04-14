@@ -51,7 +51,7 @@ export default function Details() {
 
   const removeWatchlist = () => {
     if (!user || !movie) return;
-    api.post(`/actions/unwatchlist/${movieId}`).then(() => {
+    api.delete(`/actions/watchlist/${movieId}`).then(() => {
       setWatchlist(watchlist.filter((mov) => mov.id != movie.id));
       alert("success", "Removed from watchlist.");
     });
@@ -201,9 +201,8 @@ export default function Details() {
                     {...(editing
                       ? {
                           onChange: (newScore: number) => {
-                            setDraft({
-                              ...rating,
-                              score: newScore,
+                            setDraft((prevDraft) => {
+                              return { ...prevDraft, score: newScore };
                             });
                           },
                         }
@@ -253,7 +252,9 @@ export default function Details() {
                       value={draft.review}
                       placeholder="Review (optional)"
                       onChange={(e) => {
-                        setDraft({ ...draft, review: e.target.value });
+                        setDraft((prevDraft) => {
+                          return { ...prevDraft, review: e.target.value };
+                        });
                       }}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {

@@ -1,5 +1,6 @@
 .Watchlist {
-  padding: 30px 10vw;
+  margin: 0 auto;
+  padding: 30px;
   display: flex;
   gap: 30px;
   flex-wrap: wrap;

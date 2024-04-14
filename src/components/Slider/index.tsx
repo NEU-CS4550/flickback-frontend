@@ -102,7 +102,7 @@ export default function Slider({
   return (
     <div className="Slider">
       <div className="Slider__wrapper">
-        <span className="Slider__label text-2xl">{label}</span>
+        <span className="Slider__label text-2xl font-bold">{label}</span>
         <div
           className="Slider__content"
           ref={(el: HTMLDivElement) => {

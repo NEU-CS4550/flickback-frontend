@@ -1,0 +1,50 @@
+.Admin {
+  margin: 0 auto;
+  padding: 30px;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.Admin__table {
+  background: var(--darker-color);
+  border-radius: 2px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.Admin__table__row {
+  background: color-mix(in srgb, var(--main-color) 30%, transparent);
+  padding: 10px 20px;
+  border-radius: 2px;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.Admin__table__row:hover {
+  background: color-mix(in srgb, var(--main-color) 50%, transparent);
+}
+.Admin__table__row .Button {
+  font-size: 18px;
+  padding: 10px;
+}
+.Admin__you {
+  color: var(--secondary-color);
+  margin-right: 10px;
+  font-weight: bold;
+}
+.Admin__table__info {
+  width: 100%;
+  background: none;
+}
+.Admin__table__info:focus {
+  outline: none;
+}
+.Admin__table__actions {
+  display: flex;
+  gap: 5px;
+}

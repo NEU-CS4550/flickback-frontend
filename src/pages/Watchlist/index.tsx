@@ -6,15 +6,18 @@ import { api } from "@/utils/api";
 import "./styles.css";
 import { Movie } from "@/utils/types";
 import { useEffect, useState } from "react";
+import { useAlert } from "@/utils/alert";
 
 export default function Watchlist() {
   const { user } = useAuth();
+  const { alert } = useAlert();
   const [watchlist, setWatchlist] = useState<Movie[]>([]);
 
   const removeWatchlist = (movieId: number) => {
     if (!user) return;
-    api.post(`/actions/unwatchlist/${movieId}`).then(() => {
+    api.delete(`/actions/watchlist/${movieId}`).then(() => {
       setWatchlist(watchlist.filter((mov) => mov.id != movieId));
+      alert("success", "Removed from watchlist.");
     });
   };
 
@@ -27,7 +30,7 @@ export default function Watchlist() {
 
   return (
     user && (
-      <div className="Watchlist">
+      <div className="Watchlist container">
         <span className="text-2xl">
           My Watchlist <b>({watchlist.length})</b>
         </span>

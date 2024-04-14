@@ -4,6 +4,7 @@ import {
   LuBookmark,
   LuLogIn,
   LuPenSquare,
+  LuKeyRound,
 } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/utils/auth";
@@ -31,6 +32,12 @@ export function AccountDropdown({ ...props }) {
             <LuBookmark className="text-2xl" />
             <span>Watchlist</span>
           </Link>
+          {user.role == "ADMIN" && (
+            <Link className="AccountDropdown__item" to="/admin">
+              <LuKeyRound className="text-2xl" />
+              <span>Admin</span>
+            </Link>
+          )}
           <Link className="AccountDropdown__item" to="/settings">
             <LuSettings className="text-2xl" />
             <span>Settings</span>

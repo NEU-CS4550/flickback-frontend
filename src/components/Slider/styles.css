@@ -2,9 +2,8 @@
   padding: 30px 10vw;
 }
 .Slider__label {
-  font-weight: 600;
   display: block;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 .Slider__wrapper {
   position: relative;

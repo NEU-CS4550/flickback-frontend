@@ -6,6 +6,7 @@ import Search from "./Search";
 import Details from "./Details";
 import Watchlist from "./Watchlist";
 import NotFound from "./404";
+import Admin from "./Admin";
 
 export {
   Home,
@@ -18,4 +19,5 @@ export {
   Details,
   Watchlist,
   NotFound,
+  Admin,
 };

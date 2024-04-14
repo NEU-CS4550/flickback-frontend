@@ -10,9 +10,11 @@ import "./global.css";
 function Protected({
   element,
   reverse = false,
+  admin = false,
 }: {
   element: ReactNode;
   reverse?: boolean;
+  admin?: boolean;
 }) {
   const { user } = useAuth();
   if (user === null) {
@@ -20,6 +22,7 @@ function Protected({
   } else if (user === undefined) {
     return <></>;
   } else {
+    if (admin && user.role != "ADMIN") return <Navigate to="/profile" />;
     return reverse ? <Navigate to="/profile" /> : element;
   }
 }
@@ -51,6 +54,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           <Route path="/search" element={<Pages.Search />} />
           <Route path="/movies/:movieId" element={<Pages.Details />} />
           <Route path="/watchlist" element={<Pages.Watchlist />} />
+          <Route
+            path="/admin"
+            element={<Protected admin element={<Pages.Admin />} />}
+          />
           <Route path="/404" element={<Pages.NotFound />} />
           <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
