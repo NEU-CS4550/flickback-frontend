@@ -24,41 +24,6 @@
   margin-bottom: 20px;
 }
 
-.Form__input {
-  margin-bottom: 30px;
-  padding: 5px 0;
-  position: relative;
-  font-size: 1.125rem; /* 18px */
-  line-height: 1.75rem; /* 28px */
-}
-.Form__input:before,
-.Form__input:after {
-  position: absolute;
-  content: "";
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: lavender;
-  opacity: 0.4;
-}
-.Form__input:after {
-  width: 0;
-  background: var(--secondary-color);
-  transition: all 0.4s ease;
-}
-.Form__input:focus-within:after {
-  width: 100%;
-  opacity: 1;
-}
-.Form__input input {
-  background: none;
-  width: 100%;
-}
-.Form__input input:focus {
-  outline: none;
-}
-
 .Form__checkbox {
   display: flex;
   align-items: flex-end;

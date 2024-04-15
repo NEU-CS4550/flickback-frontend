@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/utils/auth";
 
 import "./styles.css";
+import { useEffect, useState } from "react";
+import { api } from "@/utils/api";
 
 export function AccountDropdown({ ...props }) {
   const { user } = useAuth();

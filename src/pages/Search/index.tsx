@@ -13,20 +13,45 @@ export default function Search() {
   const [query, setQuery] = useState(params.get("query"));
   const [totalResults, setTotalResults] = useState(0);
   const [results, setResults] = useState<Movie[]>([]);
+  const [page, setPage] = useState(1);
 
   const search = debounce((q: string) => {
+    setPage(1);
     q = q.trim();
     if (q == "") return setResults([]);
-    api.post("/actions/search", { query: q }).then((response) => {
+    api.get(`/actions/search?query=${q}&page=${page}`).then((response) => {
       setResults(response.data.results);
       setTotalResults(response.data.total_results);
     });
   }, 400);
+
   const dbRequest = useCallback((value: any) => search(value), []);
+
+  const scrollResults = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.body.scrollHeight
+    ) {
+      api
+        .get(`/actions/search?query=${query}&page=${page + 1}`)
+        .then((response) => {
+          setResults((prevResults) => [
+            ...prevResults,
+            ...response.data.results,
+          ]);
+          setPage(page + 1);
+        });
+    }
+  };
 
   useEffect(() => {
     search(query);
   }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", scrollResults);
+    return () => window.removeEventListener("scroll", scrollResults);
+  });
 
   return (
     <>

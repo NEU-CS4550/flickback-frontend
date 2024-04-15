@@ -10,11 +10,11 @@ export default function Navigation() {
   const location = useLocation();
 
   const [accountDropdown, showAccountDropdown] = useState(false);
-  const [browseDropdown, showBrowseDropdown] = useState(false);
+  //const [browseDropdown, showBrowseDropdown] = useState(false);
 
   const hideDropdowns = () => {
     showAccountDropdown(false);
-    showBrowseDropdown(false);
+    //showBrowseDropdown(false);
   };
 
   useEffect(() => {
@@ -47,15 +47,15 @@ export default function Navigation() {
             >
               <LuSearch />
             </Link>
-            <div
+            {/*<div
               className="Navigation__icon text-xl sm:text-2xl"
               onClick={() => {
-                showBrowseDropdown(!browseDropdown);
+                //showBrowseDropdown(!browseDropdown);
                 showAccountDropdown(false);
               }}
             >
               <LuGrip />
-            </div>
+            </div>*/}
             {/****** Account icon with dropdown ******/}
             <div
               className={
@@ -64,7 +64,7 @@ export default function Navigation() {
               }
               tabIndex={0}
               onClick={() => {
-                showBrowseDropdown(false);
+                //showBrowseDropdown(false);
                 showAccountDropdown(!accountDropdown);
               }}
             >
@@ -78,6 +78,13 @@ export default function Navigation() {
               }}
             />
           )}
+          {/*browseDropdown && (
+            <BrowseDropdown
+              onClick={() => {
+                showBrowseDropdown(false);
+              }}
+            />
+          )*/}
         </div>
       </div>
       {accountDropdown && (
@@ -85,6 +92,7 @@ export default function Navigation() {
           className="Navigation__blur"
           onClick={() => {
             showAccountDropdown(false);
+            //showBrowseDropdown(false);
           }}
         ></div>
       )}

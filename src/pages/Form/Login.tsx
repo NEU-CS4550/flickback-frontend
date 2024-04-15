@@ -5,8 +5,7 @@ import { setToken } from "@/utils/token";
 import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "@/utils/alert";
 import Button from "@/components/Button";
-
-import "./styles.css";
+import Input from "@/components/Input";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -38,29 +37,25 @@ export default function Login() {
     <div className="Login">
       <div className="Form">
         <span className="Form__label">Login</span>
-        <div className="Form__input">
-          <input
-            name="username"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-            autoComplete="off"
-          />
-        </div>
-        <div className="Form__input">
-          <input
-            name="password"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-            autoComplete="off"
-          />
-        </div>
+        <Input
+          name="username"
+          label="Username"
+          value={username}
+          onChange={(e) => {
+            setUsername(e.target.value);
+          }}
+          autoComplete="off"
+        />
+        <Input
+          name="password"
+          type="password"
+          label="Password"
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+          autoComplete="off"
+        />
         <Button onClick={login}>Login</Button>
         <span className="Form__switch">
           Don't have an account yet? <Link to="/register">REGISTER</Link>
