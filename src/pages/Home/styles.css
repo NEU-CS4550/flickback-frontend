@@ -1,0 +1,13 @@
+.Home {
+  padding-bottom: 30px;
+}
+.Home__welcome {
+  padding: 70px 10vw;
+  font-size: 40px;
+  display: block;
+}
+.Home__welcome i {
+  color: var(--secondary-color);
+  font-style: normal;
+  font-weight: bold;
+}
