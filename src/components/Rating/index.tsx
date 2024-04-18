@@ -1,8 +1,8 @@
 import { Rating as RatingT } from "@/utils/types";
-import Stars from "./Stars";
 import { Link } from "react-router-dom";
 import { formatDate } from "@/utils/format";
 import { LuUser } from "react-icons/lu";
+import Stars from "./Stars";
 
 import "./styles.css";
 

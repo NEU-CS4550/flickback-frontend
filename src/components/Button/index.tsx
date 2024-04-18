@@ -1,4 +1,5 @@
 import { ComponentProps } from "react";
+
 import "./styles.css";
 
 interface ButtonProps extends ComponentProps<"button"> {

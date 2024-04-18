@@ -1,8 +1,8 @@
 import Button from "@/components/Button";
-
-import "./styles.css";
 import { Link } from "react-router-dom";
 import { LuHome } from "react-icons/lu";
+
+import "./styles.css";
 
 export default function NotFound() {
   return (

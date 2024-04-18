@@ -2,12 +2,12 @@ import { api } from "@/utils/api";
 import { Rating as RatingT, User } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import Button from "@/components/Button";
 import { LuSettings, LuUserX, LuUserPlus, LuKeyRound } from "react-icons/lu";
 import { useAuth } from "@/utils/auth";
+import Rating from "@/components/Rating";
+import Button from "@/components/Button";
 
 import "./styles.css";
-import Rating from "@/components/Rating";
 
 export default function Profile() {
   const navigate = useNavigate();

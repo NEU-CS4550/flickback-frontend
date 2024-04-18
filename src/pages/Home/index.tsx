@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { api } from "@/utils/api.js";
-import Slider from "@/components/Slider";
 import { useAuth } from "@/utils/auth";
+import Slider from "@/components/Slider";
 
 import "./styles.css";
 

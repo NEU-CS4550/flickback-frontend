@@ -1,4 +1,4 @@
-import { LuSearch, LuUser, LuGrip, LuFilm } from "react-icons/lu";
+import { LuSearch, LuUser, LuFilm } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";

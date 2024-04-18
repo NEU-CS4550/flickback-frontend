@@ -6,6 +6,8 @@ import { useAlert } from "@/utils/alert";
 import Button from "@/components/Button";
 import Input from "@/components/Input";
 
+import "./styles.css";
+
 export default function Settings() {
   const navigate = useNavigate();
   const { user, getUser } = useAuth();

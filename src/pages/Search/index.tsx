@@ -1,10 +1,10 @@
 import { LuX } from "react-icons/lu";
 import { useState, useCallback, useEffect } from "react";
 import { api } from "@/utils/api";
-import debounce from "@/utils/debounce";
 import { Movie } from "@/utils/types";
-import Tile from "@/components/Tile";
 import { useSearchParams } from "react-router-dom";
+import debounce from "@/utils/debounce";
+import Tile from "@/components/Tile";
 
 import "./styles.css";
 

@@ -1,12 +1,12 @@
 import { useAuth } from "@/utils/auth";
-import Tile from "@/components/Tile";
 import { LuBookmarkMinus } from "react-icons/lu";
 import { api } from "@/utils/api";
-
-import "./styles.css";
 import { Movie } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { useAlert } from "@/utils/alert";
+import Tile from "@/components/Tile";
+
+import "./styles.css";
 
 export default function Watchlist() {
   const { user } = useAuth();

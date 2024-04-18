@@ -1,8 +1,8 @@
-import Tile from "@/components/Tile";
 import { Movie } from "@/utils/types";
 import { useState, useRef, useEffect } from "react";
-import useWindowSize from "@/utils/resize";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import useWindowSize from "@/utils/resize";
+import Tile from "@/components/Tile";
 
 import "./styles.css";
 

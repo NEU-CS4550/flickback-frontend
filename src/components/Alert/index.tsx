@@ -1,8 +1,8 @@
 import { Alert as AlertT } from "@/utils/types";
-
-import "./styles.css";
 import { useEffect, useRef } from "react";
 import { useAlert } from "@/utils/alert";
+
+import "./styles.css";
 
 export default function Alert({
   alert,

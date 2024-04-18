@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import "./styles.css";
 import { api } from "@/utils/api";
 import { User } from "@/utils/types";
-import Button from "@/components/Button";
 import { LuCheck, LuPencil, LuTrash2, LuX } from "react-icons/lu";
 import { useAlert } from "@/utils/alert";
 import { useAuth } from "@/utils/auth";
 import debounce from "@/utils/debounce";
+import Button from "@/components/Button";
+
+import "./styles.css";
 
 export default function Admin() {
   const [users, setUsers] = useState<User[]>([]);

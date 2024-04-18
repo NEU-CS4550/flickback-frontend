@@ -1,7 +1,7 @@
 import { FaRegStar, FaStar } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 import "./styles.css";
-import { useEffect, useState } from "react";
 
 export default function Stars({
   score,

@@ -1,9 +1,9 @@
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import * as Pages from "@/pages";
 import { AuthProvider, useAuth } from "./utils/auth";
 import { ReactNode } from "react";
 import Layout from "./components/Layout";
+import * as Pages from "@/pages";
 
 import "./global.css";
 

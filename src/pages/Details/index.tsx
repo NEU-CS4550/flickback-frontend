@@ -3,6 +3,10 @@ import { useEffect, useState } from "react";
 import { api, api_image_url } from "@/utils/api";
 import { Movie, MovieFull, Rating as RatingT } from "@/utils/types";
 import { formatGenres, formatRuntime } from "@/utils/format";
+import { useAuth } from "@/utils/auth";
+import { useAlert } from "@/utils/alert";
+import Stars from "@/components/Rating/Stars";
+import Rating from "@/components/Rating";
 import Button from "@/components/Button";
 import {
   LuStar,
@@ -14,10 +18,6 @@ import {
   LuX,
   LuCheck,
 } from "react-icons/lu";
-import { useAuth } from "@/utils/auth";
-import Stars from "@/components/Rating/Stars";
-import Rating from "@/components/Rating";
-import { useAlert } from "@/utils/alert";
 
 import "./styles.css";
 
