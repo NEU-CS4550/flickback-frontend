@@ -92,6 +92,11 @@ export default function Details() {
   };
 
   useEffect(() => {
+    if (user) {
+      api.get(`/users/${user.id}/watchlist`).then((response) => {
+        setWatchlist(response.data);
+      });
+    }
     api
       .get(`/movies/${movieId}`)
       .then((response) => {
