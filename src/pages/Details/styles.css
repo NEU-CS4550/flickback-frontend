@@ -72,6 +72,10 @@
   color: var(--secondary-color);
   opacity: 0.8;
 }
+.Details__buttons .Button {
+  flex: 0 0 auto;
+  width: fit-content;
+}
 
 .Details__ratings {
   position: relative;

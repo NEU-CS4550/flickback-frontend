@@ -159,7 +159,18 @@ export default function Details() {
               <span className="italic text-lg mb-2">{movie.tagline}</span>
               <div className="mb-5">{movie.overview}</div>
               {user && (
-                <div className="flex gap-3">
+                <div className="Details__buttons flex gap-3 flex-col sm:flex-row">
+                  {watchlist.find((mov) => mov.id == movie.id) ? (
+                    <Button icon onClick={removeWatchlist}>
+                      <LuBookmarkMinus className="text-xl" />
+                      Remove from Watchlist
+                    </Button>
+                  ) : (
+                    <Button icon onClick={addWatchlist}>
+                      <LuBookmarkPlus className="text-xl" />
+                      Add to Watchlist
+                    </Button>
+                  )}
                   {!rated && (
                     <Button
                       icon
@@ -170,17 +181,6 @@ export default function Details() {
                     >
                       <LuStar className="text-xl" />
                       Rate
-                    </Button>
-                  )}
-                  {watchlist.find((mov) => mov.id == movie.id) ? (
-                    <Button icon onClick={removeWatchlist}>
-                      <LuBookmarkMinus className="text-xl" />
-                      Remove from Watchlist
-                    </Button>
-                  ) : (
-                    <Button icon onClick={addWatchlist}>
-                      <LuBookmarkPlus className="text-xl" />
-                      Add to Watchlist
                     </Button>
                   )}
                 </div>
@@ -281,7 +281,7 @@ export default function Details() {
               ? "No Other Ratings Yet"
               : "No Ratings Yet"}
           </span>
-          <div className="Details__ratings__list columns-1 md:columns-2 lg:columns-3">
+          <div className="Details__ratings__list columns-1 md:columns-2 xl:columns-3">
             {ratings.map((r, i) => {
               return <Rating key={i} rating={r} />;
             })}

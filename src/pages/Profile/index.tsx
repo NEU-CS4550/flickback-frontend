@@ -134,7 +134,7 @@ export default function Profile() {
                     <span className="text-lg">
                       <b>({followers.length})</b> Followers
                     </span>
-                    <div className="Profile__follows__list mb-10 md:max-w-28">
+                    <div className="Profile__follows__list mb-10 md:max-w-44">
                       {followers.map((follower, i) => {
                         return (
                           <Link key={i} to={"/users/" + follower.id}>
@@ -151,7 +151,7 @@ export default function Profile() {
                     <span className="text-lg">
                       <b>({following.length})</b> Following
                     </span>
-                    <div className="Profile__follows__list">
+                    <div className="Profile__follows__list mb-10 md:max-w-44">
                       {following.map((followee, i) => {
                         return (
                           <Link key={i} to={"/users/" + followee.id}>

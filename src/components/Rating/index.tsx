@@ -25,7 +25,7 @@ export default function Rating({
         {!concise && (
           <div className="Rating__info">
             <Link to={"/users/" + rating.userId}>
-              <LuUser className="text-xl" /> {rating.username}
+              <LuUser className="text-xl hidden sm:flex" /> {rating.username}
             </Link>
             <span
               className="text-sm"
